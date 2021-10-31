@@ -8,16 +8,8 @@ module.exports = {
   },
   variants: {
     extend: {},
-    backgroundColor: ['responsive', 'hover', 'focus', 'disabled', 'active_page'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
     cursor: ['disabled'],
   },
-  plugins: [
-    plugin(function({ addVariant, e }) {
-      addVariant('active_page', ({ modifySelectors, separator }) => {
-        modifySelectors(({ className }) => {
-          return `.${e(`active_page${separator}${className}`)}:active_page`
-        })
-      })
-    })
-  ],
+  plugins: [],
 }

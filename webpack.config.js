@@ -13,7 +13,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'My Stack',
       template: path.resolve(__dirname, './src/template.html'), // template file
-      filename: 'index.html', // output file
+      filename: 'index.html', // output file,
     })
   ],
   module: {
@@ -42,10 +42,11 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
   },
+  cache : false,
   devServer: {
-    static: [
-      'public',
-    ]
+    client: {
+      logging: 'info',
+    }
   },
   devtool : "source-map"
 }
