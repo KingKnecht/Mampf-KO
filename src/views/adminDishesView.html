@@ -1,1 +1,25 @@
-<div>Admin Dishes</div>
+<adminadddishview params="vm: vm.adminAddDishViewModel" class="w-full h-full" data-bind="css: {hidden: !vm.isAddDishActive()}"></adminadddishview>
+
+<div class="w-full bg-gray-900 h-full">
+  <div class="flex flex-col items-center justify-center">
+
+    <div data-bind="css: {hidden: vm.dishesCount() > 0}"
+      class="bg-gray-700 text-gray-200 w-4/12 rounded px-3 py-2 my-4 border-2 border-gray-400 font-medium">
+      <p class="text-center">No dishes have been added yet</p>
+    </div>
+    <div data-bind="foreach: vm.dishes" class="w-6/12 flex flex-col">
+      <div class="bg-gray-700 rounded px-3 py-2 my-4 border-2 border-gray-400 flex flex-col items-stretch self-stretch">
+        <div class="text-gray-200 text-xl text-center" data-bind="text: name"></div>
+        <div class="text-gray-200 hidden md:block" data-bind="text: description"></div>
+      </div>
+    </div>
+
+    <a href="#" data-bind="click: vm.openAddDish" class="bg-green-500 hover:bg-green-700 text-gray-200 py-2 px-4 font-medium rounded inline-flex items-center">
+      <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="white" viewBox="0 0 5 5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.1" d="M2 1 h1 v1 h1 v1 h-1 v1 h-1 v-1 h-1 v-1 h1 z" />
+      </svg> -->
+      Add Dish
+    </a>
+
+  </div>
+</div>

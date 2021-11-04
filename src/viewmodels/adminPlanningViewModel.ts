@@ -5,7 +5,10 @@ import { BaseViewModel } from "./baseViewModel";
 export class AdminPlanningViewModel extends BaseViewModel{
   constructor(appState : Observable<AppState>) {
     super(appState);
+
+
   }
+
 
 }
 

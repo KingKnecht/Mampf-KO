@@ -3,11 +3,12 @@ import { MainViewModel, registerControl as mainRegisterControl } from './viewmod
 import { NavigationViewModel, registerControl as navigationRegisterControl } from './viewmodels/navigationViewModel';
 import {AdminLoginViewModel, registerControl as adminLoginRegisterControl} from './viewmodels/adminLoginViewModel';
 import {OverviewViewModel, registerControl as overviewRegisterControl} from './viewmodels/overviewViewModel';
-
+import { init as kov_init, validateObservable } from 'knockout.validation';
 import { applyBindings, observable } from 'knockout';
 import { AppState } from "src/framework/appState";
 import { AdminDishesViewModel, registerControl as adminDishesRegisterVControl } from './viewmodels/adminDishesViewModel';
 import { AdminPlanningViewModel, registerControl as adminPlanningRegisterControl } from './viewmodels/adminPlanningViewModel';
+import {AdminAddDishViewModel, registerControl as adminAddDishRegisterControl} from "./viewmodels/adminAddDish";
 
 async function init(){
     console.log('init()');
@@ -18,18 +19,31 @@ async function init(){
     overviewRegisterControl();
     adminDishesRegisterVControl();
     adminPlanningRegisterControl();
+    adminAddDishRegisterControl();
 
+    
+    kov_init({insertMessages: false});
+    
     const mainview = document.createElement('mainview');
     mainview.setAttribute('params', 'vm: $data');
+    mainview.setAttribute('class', 'min-h-full grid');
     const root = document.getElementById("root");
     root?.appendChild(mainview);
 
     
+    // const initalAppState : AppState = {
+    //     username : undefined,
+    //     isAdmin : false,
+    //     activePage : "OVERVIEW",
+    //     action :  {kind : 'RequestPageType', page : 'OVERVIEW'},
+    //     lastPage : "OVERVIEW"
+    // }
+
     const initalAppState : AppState = {
         username : undefined,
-        isAdmin : false,
-        activePage : "OVERVIEW",
-        requestedPage : "OVERVIEW",
+        isAdmin : true,
+        activePage : "ADMIN_DISHES",
+        action :  {kind : 'RequestPageType', page : 'ADMIN_DISHES'},
         lastPage : "OVERVIEW"
     }
 
@@ -37,7 +51,9 @@ async function init(){
     const adminLoginViewModel = new AdminLoginViewModel(appStateObservable);
     const navigationViewModel = new NavigationViewModel(appStateObservable);
     const overviewViewModel = new OverviewViewModel(appStateObservable);
-    const adminDishesViewModel = new AdminDishesViewModel(appStateObservable);
+    const adminAddDishViewModel = new AdminAddDishViewModel(appStateObservable);
+
+    const adminDishesViewModel = new AdminDishesViewModel(appStateObservable, adminAddDishViewModel);
     const adminPlanningViewModel = new AdminPlanningViewModel(appStateObservable);
     const mainViewModel = new MainViewModel(appStateObservable,
          navigationViewModel,
@@ -45,7 +61,7 @@ async function init(){
          overviewViewModel,
          adminDishesViewModel,
          adminPlanningViewModel);
-     
+    
     applyBindings(mainViewModel, root);
 }
 

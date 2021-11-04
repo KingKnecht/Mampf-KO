@@ -27,7 +27,7 @@ export class AdminLoginViewModel extends BaseViewModel{
     let state = this.appState();
       state = {
         ...state,
-        requestedPage : state.lastPage
+        action : {kind: 'RequestPageType', page : state.lastPage}
       }
       this.appState(state);
       return false;

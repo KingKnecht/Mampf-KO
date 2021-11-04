@@ -7,7 +7,10 @@ module.exports = {
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      opacity: ['disabled'],
+      text: ['disabled']
+    },
     backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
     cursor: ['disabled'],
   },

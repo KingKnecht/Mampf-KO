@@ -912,6 +912,18 @@
   version "7.0.9"
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.9.tgz"
 
+"@types/knockout.validation@^0.0.38":
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/@types/knockout.validation/-/knockout.validation-0.0.38.tgz#3aced21e0ac411b0a1ec5b6023a8da8df1019474"
+  integrity sha512-zEuB9MJQKPaF7nm1rAzo7gJCfNlGLlgV2U4f8tXSrnBBE79LDys7/UQHrsqLrARMMYfRR6WrSHU+1o0OmG5gsg==
+  dependencies:
+    "@types/knockout" "*"
+
+"@types/knockout@*":
+  version "3.4.71"
+  resolved "https://registry.yarnpkg.com/@types/knockout/-/knockout-3.4.71.tgz#32d7109d0d1f330d799a5e552988010300dfda39"
+  integrity sha512-Yf6LzL15MfQQ6mIMPtn+jBHaV2raWOBJYw6o8OfeQ+f3OsyTH8JwlbsiVvuxJacrUiw1DjtuGEGMfQj/viIN9g==
+
 "@types/loader-utils@^2.0.1":
   version "2.0.3"
   resolved "https://registry.npmjs.org/@types/loader-utils/-/loader-utils-2.0.3.tgz"
@@ -2798,6 +2810,11 @@ klona@^2.0.4:
   version "2.0.5"
   resolved "https://registry.npmjs.org/klona/-/klona-2.0.5.tgz"
 
+knockout.validation@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/knockout.validation/-/knockout.validation-2.0.4.tgz#e87f82f41b5bdcb7029ea6be3fef2a903054558b"
+  integrity sha512-64eDuEvALXf5GsRK5b2WIetF/eSIlTsw/ZDerrhKt+3eRBBk95SXdczTLhcoNL4Hi8Gym14YYIjj7vLCXEeHDA==
+
 knockout@^3.5.1:
   version "3.5.1"
   resolved "https://registry.npmjs.org/knockout/-/knockout-3.5.1.tgz"
@@ -4229,6 +4246,11 @@ which@^2.0.1:
 wildcard@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/wildcard/-/wildcard-2.0.0.tgz"
+
+win-node-env@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/win-node-env/-/win-node-env-0.4.0.tgz#2d9dc991702920c73eaa1d644655b773886da5cb"
+  integrity sha512-bf4TV/NOBEazlHJW/bOns7u2JaHe3f5bz8BYanm/xuqJ405NG9OK3VAI1Y2WvHJsAo4GMU8EYTHSh59Q3UfHvA==
 
 word-wrap@^1.2.3:
   version "1.2.3"
