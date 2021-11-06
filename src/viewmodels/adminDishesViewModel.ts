@@ -1,4 +1,4 @@
-import { applyBindings, components, observable, Observable, observableArray, ObservableArray } from "knockout";
+import { components, observable, Observable, observableArray, ObservableArray } from "knockout";
 import { AppState } from "src/framework/appState";
 import { AdminAddDishViewModel } from "./adminAddDish";
 import { BaseViewModel } from "./baseViewModel";
@@ -8,6 +8,11 @@ const dishes: IDish[] = [
   {
     id: "1",
     name: 'Spätzle mit Soß',
+    description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua'
+  },
+  {
+    id: "2",
+    name: 'xxx',
     description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua'
   }
 ]
@@ -25,10 +30,19 @@ export class AdminDishesViewModel extends BaseViewModel {
 
     this.adminAddDishViewModel = adminAddDishViewModel;
     this.adminAddDishViewModel.parentHandleCancel = () => this.isAddDishActive(false);
+
+    this.adminAddDishViewModel.parentHandleAddDish = (dish: IDish) => {
+      this.dishes.push(dish);
+      this.isAddDishActive(false);
+      return;
+    };
+
   }
 
 
   openAddDish = () => {
+    this.adminAddDishViewModel.ClearForm();
+    this.adminAddDishViewModel.setDishes(dishes);
     this.isAddDishActive(true);
   }
 
