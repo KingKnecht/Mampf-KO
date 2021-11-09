@@ -8,7 +8,7 @@ import { applyBindings, observable } from 'knockout';
 import { AppState } from "src/framework/appState";
 import { AdminDishesViewModel, registerControl as adminDishesRegisterVControl } from './viewmodels/adminDishesViewModel';
 import { AdminPlanningViewModel, registerControl as adminPlanningRegisterControl } from './viewmodels/adminPlanningViewModel';
-import {AdminAddDishViewModel, registerControl as adminAddDishRegisterControl} from "./viewmodels/adminAddDish";
+import {AdminAddDishViewModel, registerControl as adminAddDishRegisterControl} from "./viewmodels/adminAddDishViewModel";
 
 async function init(){
     console.log('init()');

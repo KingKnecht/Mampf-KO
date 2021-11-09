@@ -1,9 +1,10 @@
 
-<div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+
+<div data-bind="with: vm.formVm" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
 
   <div class="w-full h-screen flex items-center justify-center">
-    
-    <form class="w-full md:w-1/3 bg-white rounded-lg" data-bind="submit: vm.handleSubmit">
+    <!-- <div data-bind="text: console.log($data)"></div> -->
+    <form class="w-full md:w-1/3 bg-white rounded-lg" data-bind="submit: $data.handleSubmit">
       <h2 class="text-3xl text-center text-gray-700 mb-4">Add New Dish</h2>
       <div class="px-12 pb-10">
         <div class="w-full mb-2">
@@ -12,8 +13,8 @@
             <!-- <div class="w-full flex flex-col items-center justify-center"> -->
               <input type='text' placeholder="* Dish Name"
                 class="w-full border rounded px-3 py-2 text-gray-700 focus:outline-none"
-                data-bind="value: vm.dishName" />
-              <p class="self-start text-red-500" data-bind="validationMessage: vm.dishName"></p>
+                data-bind="value: $data.dishName" />
+              <p class="self-start text-red-500" data-bind="validationMessage: $data.dishName"></p>
             <!-- </div> -->
           </div>
         </div>
@@ -22,12 +23,12 @@
             <!-- <i class='ml-3 fill-current text-gray-400 text-xs z-10 fas fa-lock'></i> -->
             <input type='text' placeholder="Description"
               class="w-full border rounded px-3 py-2 text-gray-700 focus:outline-none"
-              data-bind="value : vm.description" />
+              data-bind="value : $data.description" />
           </div>
         </div>
         <button type="cancel" class="w-full mt-4 py-2 rounded-full bg-gray-500 text-gray-100  focus:outline-none"
-          data-bind="click: vm.handleCancel">Cancel</button>
-        <button type="submit" data-bind="enable: vm.isFormValid"
+          data-bind="click: $data.handleCancel">Cancel</button>
+        <button type="submit" data-bind="enable: $data.isFormValid"
           class="w-full mt-4 py-2 rounded-full bg-green-500 text-gray-100 disabled:cursor-not-allowed disabled:opacity-25 focus:outline-none">Save</button>
     </form>
   </div>

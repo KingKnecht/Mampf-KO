@@ -1,6 +1,6 @@
 import { components, observable, Observable, observableArray, ObservableArray } from "knockout";
 import { AppState } from "src/framework/appState";
-import { AdminAddDishViewModel } from "./adminAddDish";
+import { AdminAddDishViewModel } from "./adminAddDishViewModel";
 import { BaseViewModel } from "./baseViewModel";
 
 
@@ -29,20 +29,19 @@ export class AdminDishesViewModel extends BaseViewModel {
     super(appState);
 
     this.adminAddDishViewModel = adminAddDishViewModel;
-    this.adminAddDishViewModel.parentHandleCancel = () => this.isAddDishActive(false);
-
-    this.adminAddDishViewModel.parentHandleAddDish = (dish: IDish) => {
-      this.dishes.push(dish);
-      this.isAddDishActive(false);
-      return;
-    };
-
   }
 
 
   openAddDish = () => {
-    this.adminAddDishViewModel.ClearForm();
-    this.adminAddDishViewModel.setDishes(dishes);
+    this.adminAddDishViewModel.init(dishes,
+      (dish: IDish) => {
+        this.dishes.push(dish);
+        this.isAddDishActive(false);
+      },
+      () => {
+        this.isAddDishActive(false)
+      }
+    );
     this.isAddDishActive(true);
   }
 
