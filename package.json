@@ -36,6 +36,7 @@
     "win-node-env": "^0.4.0"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.3.4",
     "knockout": "^3.5.1",
     "knockout.validation": "^2.0.4"
   }
