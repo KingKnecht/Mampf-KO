@@ -2,60 +2,48 @@ import { components, computed, Computed, observable, Observable, observableArray
 import { validateObservable, } from "knockout.validation";
 
 import { AppState } from "src/framework/appState";
+import { DishesService } from "src/framework/DishesService";
 import { BaseViewModel } from "./baseViewModel";
 
-// interface InputField {
-//   isTouched: boolean,
-//   hasError: boolean,
-//   errorMsg: string,
-//   value: string
-// }
-
-// interface FormData {
-//   nameInput: InputField,
-//   descriptionInput: InputField
-//   isValid: boolean
-// }
-
-
-
 export class AdminAddDishViewModel extends BaseViewModel {
-  
-  
-  //parentHandleCancel: () => void;
-  //parentHandleAddDish: (dish: IDish) => void;
-  formVm : Observable<AddDishFormViewModel|undefined> = observable();
 
-  constructor(appState: Observable<AppState>) {
+  formVm: Observable<AddDishFormViewModel | undefined> = observable();
+  dishes: IDish[];
+  readonly dishesService: DishesService;
+
+  constructor(appState: Observable<AppState>, dishesService: DishesService) {
     super(appState);
 
-
+    this.dishesService = dishesService;
   }
 
-  init = (dishes: IDish[], onSubmit : (dish: IDish) => void, onCancel: () => void) => {
-    this.formVm(new AddDishFormViewModel(dishes,onSubmit, onCancel))
+  onPageEnter = () => {
+    this.formVm(new AddDishFormViewModel(this.dishesService, this.appState))
   }
-
+  
+  onPageLeave = () => {
+  
+  }
 }
 
 //FYI: FormViewModel is used as a little trick to be able to create a completly
 //new viewmodel for the form every time a "Add dish" is executed.
 //This is important because the validation of the form should be in a clean start state.
 //https://stackoverflow.com/a/14047064/2356048
-class AddDishFormViewModel {
+class AddDishFormViewModel extends BaseViewModel{
+   
   dishName: Observable<string> = observable('')
   description: Observable<string> = observable('')
   existingDishes: ObservableArray<IDish> = observableArray();
   isFormValid: Computed;
-  onSubmit: (dish: IDish) => void;
-  onCancel: () => void;
+  dishesService: DishesService;
 
-  constructor(dishes: IDish[],onSubmit : (dish: IDish) => void, onCancel: () => void) {
+  constructor(dishesService: DishesService, appState: Observable<AppState>) {
+    super(appState);
 
-    this.existingDishes(dishes);
-    this.onSubmit = onSubmit;
-    this.onCancel = onCancel;
-
+    this.dishesService = dishesService;
+    this.onPageEnter();
+    
     this.dishName
       .extend({
         required: {
@@ -83,16 +71,27 @@ class AddDishFormViewModel {
 
   }
 
+  onPageEnter = () => {
+    (async () => {
+      this.existingDishes(await this.dishesService.getDishes());
+    })();
+  }
+  onPageLeave = () => {
+    
+  }
+
   handleSubmit = () => {
-    this.onSubmit({
+    this.dishesService.add({
       id: '',
       name: this.dishName(),
       description: this.description(),
-    })
+    });
+
+    this.requestPreviousPage();
   }
 
   handleCancel = () => {
-   this.onCancel();
+    this.requestPreviousPage();
   }
 }
 

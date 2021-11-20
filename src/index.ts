@@ -9,6 +9,7 @@ import { AppState } from "src/framework/appState";
 import { AdminDishesViewModel, registerControl as adminDishesRegisterVControl } from './viewmodels/adminDishesViewModel';
 import { AdminPlanningViewModel, registerControl as adminPlanningRegisterControl } from './viewmodels/adminPlanningViewModel';
 import {AdminAddDishViewModel, registerControl as adminAddDishRegisterControl} from "./viewmodels/adminAddDishViewModel";
+import { DishesService } from './framework/DishesService';
 
 async function init(){
     console.log('init()');
@@ -44,23 +45,25 @@ async function init(){
         isAdmin : true,
         activePage : "ADMIN_DISHES",
         action :  {kind : 'RequestPageType', page : 'ADMIN_DISHES'},
-        lastPage : "OVERVIEW"
+        previousPage : "OVERVIEW"
     }
 
     const appStateObservable = observable(initalAppState)
+    const dishService = new DishesService();
     const adminLoginViewModel = new AdminLoginViewModel(appStateObservable);
     const navigationViewModel = new NavigationViewModel(appStateObservable);
     const overviewViewModel = new OverviewViewModel(appStateObservable);
-    const adminAddDishViewModel = new AdminAddDishViewModel(appStateObservable);
+    const adminAddDishViewModel = new AdminAddDishViewModel(appStateObservable,dishService);
 
-    const adminDishesViewModel = new AdminDishesViewModel(appStateObservable, adminAddDishViewModel);
+    const adminDishesViewModel = new AdminDishesViewModel(appStateObservable,dishService);
     const adminPlanningViewModel = new AdminPlanningViewModel(appStateObservable);
     const mainViewModel = new MainViewModel(appStateObservable,
          navigationViewModel,
          adminLoginViewModel,
          overviewViewModel,
          adminDishesViewModel,
-         adminPlanningViewModel);
+         adminPlanningViewModel,
+         adminAddDishViewModel);
     
     applyBindings(mainViewModel, root);
 }

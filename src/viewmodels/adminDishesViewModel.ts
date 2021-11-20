@@ -1,48 +1,38 @@
 import { components, observable, Observable, observableArray, ObservableArray } from "knockout";
 import { AppState } from "src/framework/appState";
+import { DishesService } from "src/framework/DishesService";
 import { AdminAddDishViewModel } from "./adminAddDishViewModel";
 import { BaseViewModel } from "./baseViewModel";
 
 
-const dishes: IDish[] = [
-  {
-    id: "1",
-    name: 'Spätzle mit Soß',
-    description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua'
-  },
-  {
-    id: "2",
-    name: 'xxx',
-    description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua'
-  }
-]
+
 
 export class AdminDishesViewModel extends BaseViewModel {
 
-  dishesCount: Observable<number> = observable(dishes.length);
-  dishes: ObservableArray<IDish> = observableArray(dishes);
-  isAddDishActive: Observable<boolean> = observable(false);
-  adminAddDishViewModel: AdminAddDishViewModel;
+  dishesCount: Observable<number> = observable(0);
+  dishes: ObservableArray<IDish> = observableArray();
+  private readonly dishesService: DishesService;
 
-
-  constructor(appState: Observable<AppState>, adminAddDishViewModel: AdminAddDishViewModel) {
+  constructor(appState: Observable<AppState>, dishesService: DishesService) {
     super(appState);
 
-    this.adminAddDishViewModel = adminAddDishViewModel;
+    this.dishesService = dishesService;
+    this.onPageEnter();
   }
 
-
   openAddDish = () => {
-    this.adminAddDishViewModel.init(dishes,
-      (dish: IDish) => {
-        this.dishes.push(dish);
-        this.isAddDishActive(false);
-      },
-      () => {
-        this.isAddDishActive(false)
-      }
-    );
-    this.isAddDishActive(true);
+    this.requestPage('ADMIN_ADD_DISH')
+  }
+
+  onPageEnter = () => {
+    (async () => {
+      this.dishes(await this.dishesService.getDishes());
+      this.dishesCount(this.dishes().length);
+    })();
+
+  }
+  onPageLeave = () => {
+
   }
 
 }

@@ -38,14 +38,13 @@ export class NavigationViewModel extends BaseViewModel{
     this.appState(state);
   }
 
-  private requestPage = (page: PageTypes) => {
-    let state = this.appState();
-    state = {
-      ...state,
-      action: ({kind: 'RequestPageType', page : page} as RequestPageType)
-    }
-    this.appState(state);
+  onPageEnter = () => {
+   
   }
+  onPageLeave = () => {
+   
+  }
+  
 }
 
 export function registerControl() {

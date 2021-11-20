@@ -18,7 +18,7 @@ export type AppState = {
   username : string | undefined
   isAdmin : boolean
   activePage : PageTypes
-  lastPage : PageTypes
+  previousPage : PageTypes
   action : ActionTypes
 }
 

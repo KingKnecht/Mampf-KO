@@ -1,8 +1,9 @@
-<div data-bind="with: vm.formVm" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+<!-- <div data-bind="with: vm.formVm" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"> -->
+<div data-bind="with: vm.formVm" class="w-full bg-gray-900 h-full">
 
-  <div class="w-full h-screen flex items-center justify-center">
+  <div class="flex items-center justify-center">
     <!-- <div data-bind="text: console.log($data)"></div> -->
-    <form class="w-full md:w-2/3 bg-gray-900 rounded-lg" data-bind="submit: $data.handleSubmit">
+    <form class="w-full md:w-2/3 bg-gray-700 rounded-lg mt-10" data-bind="submit: $data.handleSubmit">
       <h2 class="text-3xl text-center text-gray-300 my-4">Add New Dish</h2>
       <div class="px-12 pb-10">
         <div class="w-full mb-2">
@@ -26,15 +27,12 @@
           <p class="text-gray-300 my-2">Ingredients</p>
           <div class="flex flex-wrap -m-2">
 
-            <input type="input"
-              class="h-10 m-2 min-w-0 border rounded px-3 py-2 text-gray-700 focus:outline-none"
+            <input type="input" class="h-10 m-2 min-w-0 border rounded px-3 py-2 text-gray-700 focus:outline-none"
               placeholder="Ingredient" />
-            <input type="input"
-              class="h-10 m-2 min-w-0  border rounded px-3 py-2 text-gray-700 focus:outline-none"
+            <input type="input" class="h-10 m-2 min-w-0  border rounded px-3 py-2 text-gray-700 focus:outline-none"
               placeholder="amount" />
 
-            <input type="input"
-              class="h-10 m-2 min-w-0 border rounded px-3 py-2 text-gray-700 focus:outline-none"
+            <input type="input" class="h-10 m-2 min-w-0 border rounded px-3 py-2 text-gray-700 focus:outline-none"
               placeholder="unit" />
             <button
               class="h-10 m-2 flex-grow-0 bg-green-500 text-white active:bg-green-700 font-bold uppercase text-xs px-4 rounded hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
