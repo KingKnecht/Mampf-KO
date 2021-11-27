@@ -32,21 +32,21 @@ async function init(){
     root?.appendChild(mainview);
 
     
-    // const initalAppState : AppState = {
-    //     username : undefined,
-    //     isAdmin : false,
-    //     activePage : "OVERVIEW",
-    //     action :  {kind : 'RequestPageType', page : 'OVERVIEW'},
-    //     lastPage : "OVERVIEW"
-    // }
-
     const initalAppState : AppState = {
         username : undefined,
         isAdmin : true,
-        activePage : "ADMIN_DISHES",
-        action :  {kind : 'RequestPageType', page : 'ADMIN_DISHES'},
+        activePage : "OVERVIEW",
+        action :  {kind : 'RequestPageType', page : 'OVERVIEW'},
         previousPage : "OVERVIEW"
     }
+
+    // const initalAppState : AppState = {
+    //     username : undefined,
+    //     isAdmin : true,
+    //     activePage : "ADMIN_DISHES",
+    //     action :  {kind : 'RequestPageType', page : 'ADMIN_DISHES'},
+    //     previousPage : "OVERVIEW"
+    // }
 
     const appStateObservable = observable(initalAppState)
     const dishService = new DishesService();

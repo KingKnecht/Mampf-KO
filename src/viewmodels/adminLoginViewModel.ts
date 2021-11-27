@@ -4,6 +4,13 @@ import { BaseViewModel } from "./baseViewModel";
 
 
 export class AdminLoginViewModel extends BaseViewModel{
+  
+  onPageEnter(): void {
+    throw new Error("Method not implemented.");
+  }
+  onPageLeave(): void {
+    throw new Error("Method not implemented.");
+  }
 
   username: Observable<string> = observable('')
   password: Observable<string> = observable('')
@@ -13,7 +20,7 @@ export class AdminLoginViewModel extends BaseViewModel{
   }
 
   handleSubmit = () => {
-    if (this.username() === "test" && this.password() === "123") {
+    if (this.username() === "123" && this.password() === "123") {
       let state = this.appState();
       state = {
         ...state,

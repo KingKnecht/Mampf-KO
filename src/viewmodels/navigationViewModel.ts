@@ -6,9 +6,12 @@ import { BaseViewModel } from "./baseViewModel";
 export class NavigationViewModel extends BaseViewModel{
 
   readonly isAdmin : Observable<boolean> = observable(false);
+  readonly isMenuOpen : Observable<boolean> = observable(false);
 
   constructor(appState: Observable<AppState>) {
     super(appState);
+
+    this.isAdmin(appState().isAdmin)
 
     this.appState.subscribe((state) => {
       this.isAdmin(state.isAdmin);
@@ -21,7 +24,11 @@ export class NavigationViewModel extends BaseViewModel{
     return name === this.appState().activePage;
   }
 
-  requestAdminPage = () => {
+  toggleMenu = () => {
+    this.isMenuOpen(!this.isMenuOpen());
+  }
+
+  requestAdminPlanningPage = () => {
     this.requestPage("ADMIN_PLANNING")
   }
 
@@ -29,6 +36,9 @@ export class NavigationViewModel extends BaseViewModel{
     this.requestPage("OVERVIEW")
   }
 
+  requestAdminDishesPage = () => {
+    this.requestPage("ADMIN_DISHES")
+  }
   requestAdminLogout = () => {
     let state = this.appState();
     state = {
