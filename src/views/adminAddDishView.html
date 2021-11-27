@@ -5,7 +5,7 @@
     <!-- <div data-bind="text: console.log($data)"></div> -->
     <form class="w-full md:w-2/3 bg-gray-700 rounded-lg mt-10" data-bind="submit: $data.handleSubmit">
       <h2 class="text-3xl text-center text-gray-300 my-4">Add New Dish</h2>
-      <div class="px-12 pb-10">
+      <div class="px-4 pb-10">
         <div class="w-full mb-2">
           <div class="flex flex-col items-center">
             <input type='text' placeholder="* Dish Name"
@@ -25,24 +25,40 @@
 
         <div>
           <p class="text-gray-300 my-2">Ingredients</p>
-          <div class="flex flex-wrap -m-2">
+          <!-- <div class="flex flex-wrap"> -->
+          <div class="mb-4" data-bind="foreach: {data : $data.currentIncredients, as: 'ingredient'}">
+            <div class="flex space-x-4 mb-4">
+              <input type="input" readonly data-bind="value: ingredient.name"
+                class="h-10 sm:w-24 border rounded px-3 py-2 text-gray-700 focus:outline-none" />
+              <input type="input" readonly data-bind="value: ingredient.amount"
+                class="h-10  w-16 border rounded px-3 py-2 text-gray-700 focus:outline-none" />
+              <input type="input" readonly data-bind="value: ingredient.unit"
+                class="h-10 w-16 border rounded px-3 py-2 text-gray-700 focus:outline-none" />
+              <button
+                class="h-10 flex-grow-0 bg-green-500 text-white active:bg-green-700 font-bold uppercase text-xs px-4 rounded hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                data-bind="click: $data.editIngredient" type="button">
+                <img class="h-6 w-6" src="./images/edit.svg" />
+              </button>
+            </div>
+          </div>
 
-            <input type="input" class="h-10 m-2 min-w-0 border rounded px-3 py-2 text-gray-700 focus:outline-none"
-              placeholder="Ingredient" />
-            <input type="input" class="h-10 m-2 min-w-0  border rounded px-3 py-2 text-gray-700 focus:outline-none"
-              placeholder="amount" />
-
-            <input type="input" class="h-10 m-2 min-w-0 border rounded px-3 py-2 text-gray-700 focus:outline-none"
-              placeholder="unit" />
+          <div class="flex space-x-4">
+            <input type="input" class="h-10 ssm:w-20 w-32 border rounded px-3 py-2 text-gray-700 focus:outline-none"
+              data-bind="value: $data.ingredientName" placeholder="Ingredient" />
+            <input type="input" class="h-10 w-16  border rounded px-3 py-2 text-gray-700 focus:outline-none"
+              data-bind="value: $data.amount" />
+            <input type="input" class="h-10 w-16 border rounded px-3 py-2 text-gray-700 focus:outline-none"
+              data-bind="value: $data.unit" placeholder="unit" />
             <button
-              class="h-10 m-2 flex-grow-0 bg-green-500 text-white active:bg-green-700 font-bold uppercase text-xs px-4 rounded hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
-              type="button">
+              class="h-10 flex-grow-0 bg-green-500 text-white active:bg-green-700 font-bold uppercase text-xs px-4 rounded hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+              data-bind="click: $data.addIngredient" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
             </button>
           </div>
+          <!-- </div> -->
         </div>
 
 

@@ -20,9 +20,9 @@ export class AdminAddDishViewModel extends BaseViewModel {
   onPageEnter = () => {
     this.formVm(new AddDishFormViewModel(this.dishesService, this.appState))
   }
-  
+
   onPageLeave = () => {
-  
+
   }
 }
 
@@ -30,20 +30,27 @@ export class AdminAddDishViewModel extends BaseViewModel {
 //new viewmodel for the form every time a "Add dish" is executed.
 //This is important because the validation of the form should be in a clean start state.
 //https://stackoverflow.com/a/14047064/2356048
-class AddDishFormViewModel extends BaseViewModel{
-   
+class AddDishFormViewModel extends BaseViewModel {
+
   dishName: Observable<string> = observable('')
   description: Observable<string> = observable('')
   existingDishes: ObservableArray<IDish> = observableArray();
+
+  ingredientName: Observable<string | undefined> = observable();
+  amount: Observable<number | undefined> = observable(1.0);
+  unit: Observable<string | undefined> = observable();
+
   isFormValid: Computed;
   dishesService: DishesService;
+
+  currentIncredients: ObservableArray<IIngredient> = observableArray();
 
   constructor(dishesService: DishesService, appState: Observable<AppState>) {
     super(appState);
 
     this.dishesService = dishesService;
     this.onPageEnter();
-    
+
     this.dishName
       .extend({
         required: {
@@ -77,17 +84,35 @@ class AddDishFormViewModel extends BaseViewModel{
     })();
   }
   onPageLeave = () => {
-    
+
   }
 
   handleSubmit = () => {
     this.dishesService.add({
-      id: '',
+      id: undefined,
       name: this.dishName(),
       description: this.description(),
+      persons: 1,
+      ingredients: []
     });
 
     this.requestPreviousPage();
+  }
+
+  addIngredient = () => {
+    const ingredientName = this.ingredientName();
+    if (ingredientName != undefined) {
+      this.currentIncredients.push({
+        id: undefined,
+        name: ingredientName,
+        amount: this.amount(),
+        unit: this.unit(),
+      });
+
+      this.ingredientName(undefined);
+      this.amount(undefined);
+      this.unit(undefined);
+    }
   }
 
   handleCancel = () => {

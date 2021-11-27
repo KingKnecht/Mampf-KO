@@ -9,6 +9,9 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    // screens : {
+    //   'ssm' : '320px',
+    // },
     extend: {},
   },
   variants: {

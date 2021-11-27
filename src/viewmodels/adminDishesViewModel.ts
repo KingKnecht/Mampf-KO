@@ -11,6 +11,8 @@ export class AdminDishesViewModel extends BaseViewModel {
 
   dishesCount: Observable<number> = observable(0);
   dishes: ObservableArray<IDish> = observableArray();
+
+
   private readonly dishesService: DishesService;
 
   constructor(appState: Observable<AppState>, dishesService: DishesService) {
@@ -24,6 +26,8 @@ export class AdminDishesViewModel extends BaseViewModel {
     this.requestPage('ADMIN_ADD_DISH')
   }
 
+
+ 
   onPageEnter = () => {
     (async () => {
       this.dishes(await this.dishesService.getDishes());
