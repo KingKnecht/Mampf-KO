@@ -1,4 +1,4 @@
-import { components, computed, Computed, observable, Observable, observableArray, ObservableArray } from "knockout";
+import { bindingHandlers, components, computed, Computed, extenders, observable, Observable, observableArray, ObservableArray, pureComputed } from "knockout";
 import { validateObservable, } from "knockout.validation";
 
 import { AppState } from "src/framework/appState";
@@ -26,6 +26,21 @@ export class AdminAddDishViewModel extends BaseViewModel {
   }
 }
 
+class IngredientVm {
+
+  constructor(ingredient: IIngredient) {
+    this.id = ingredient.id;
+    this.name = observable(ingredient.name);
+    this.amount = observable(ingredient.amount);
+    this.unit = observable(ingredient.unit);
+  }
+  id: string | undefined;
+  name: Observable<string>;
+  amount: Observable<number | undefined>;
+  unit: Observable<string | undefined>;
+  isEditing: Observable<boolean> = observable(false);
+}
+
 //FYI: FormViewModel is used as a little trick to be able to create a completly
 //new viewmodel for the form every time a "Add dish" is executed.
 //This is important because the validation of the form should be in a clean start state.
@@ -37,13 +52,13 @@ class AddDishFormViewModel extends BaseViewModel {
   existingDishes: ObservableArray<IDish> = observableArray();
 
   ingredientName: Observable<string | undefined> = observable();
-  amount: Observable<number | undefined> = observable(1.0);
+  amount: Observable<number> = observable(0).extend({ numeric: 3 } as any);
   unit: Observable<string | undefined> = observable();
 
   isFormValid: Computed;
   dishesService: DishesService;
 
-  currentIncredients: ObservableArray<IIngredient> = observableArray();
+  currentIncredients: ObservableArray<IngredientVm> = observableArray();
 
   constructor(dishesService: DishesService, appState: Observable<AppState>) {
     super(appState);
@@ -93,7 +108,13 @@ class AddDishFormViewModel extends BaseViewModel {
       name: this.dishName(),
       description: this.description(),
       persons: 1,
-      ingredients: []
+      ingredients: this.currentIncredients().map(i => (
+        {
+          id: i.id,
+          name: i.name(),
+          amount: i.amount(),
+          unit: i.unit()
+        }) as IIngredient)
     });
 
     this.requestPreviousPage();
@@ -102,17 +123,30 @@ class AddDishFormViewModel extends BaseViewModel {
   addIngredient = () => {
     const ingredientName = this.ingredientName();
     if (ingredientName != undefined) {
-      this.currentIncredients.push({
-        id: undefined,
-        name: ingredientName,
-        amount: this.amount(),
-        unit: this.unit(),
-      });
+      this.currentIncredients.push(
+        new IngredientVm({
+          id: undefined,
+          name: ingredientName,
+          amount: this.amount(),
+          unit: this.unit(),
+        }));
 
       this.ingredientName(undefined);
-      this.amount(undefined);
-      this.unit(undefined);
+      this.amount(1.0);
+      //this.unit(undefined);
     }
+  }
+
+  deleteIngredient = (elem: IngredientVm) => {
+    this.currentIncredients.remove(elem);
+  }
+
+  editIngredient = (elem: IngredientVm) => {
+    elem.isEditing(true);
+  }
+
+  stopEditIngredient = (elem: IngredientVm) => {
+    elem.isEditing(false);
   }
 
   handleCancel = () => {
@@ -120,7 +154,36 @@ class AddDishFormViewModel extends BaseViewModel {
   }
 }
 
+extenders.numeric = function (target: any, precision) {
+  //create a writable computed observable to intercept writes to our observable
+  var result = pureComputed({
+    read: target,  //always return the original observables value
+    write: function (newValue) {
+      var current = target(),
+        roundingMultiplier = Math.pow(10, precision),
+        newValueAsNum = isNaN(newValue) ? 1 : +newValue,
+        valueToWrite = Math.round(newValueAsNum * roundingMultiplier) / roundingMultiplier;
+
+      //only write if it changed
+      if (valueToWrite !== current) {
+        target(valueToWrite);
+      } else {
+        //if the rounded value is the same, but a different value was written, force a notification for the current field
+        if (newValue !== current) {
+          target.notifySubscribers(valueToWrite);
+        }
+      }
+    }
+  }).extend({ notify: 'always' });
+
+  //initialize with current value to make sure it is rounded appropriately
+  result(target());
+
+  //return the new computed observable
+  return result;
+};
 
 export function registerControl() {
   components.register('adminadddishview', { template: require('../views/adminAddDishView.html') });
 }
+
