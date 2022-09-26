@@ -1,5 +1,6 @@
 import { Observable } from "knockout";
 import { AppState, PageTypes, RequestPageType } from "src/framework/appState";
+import { DishesService } from "src/framework/DishesService";
 
 export abstract class BaseViewModel {
   protected appState: Observable<AppState>;
@@ -15,6 +16,16 @@ export abstract class BaseViewModel {
     let state = this.appState();
     state = {
       ...state,
+      action: ({kind: 'RequestPageType', page : page} as RequestPageType)
+    }
+    this.appState(state);
+  }
+
+  requestPageWithDish = (page: PageTypes, payload : IDish) => {
+    let state = this.appState();
+    state = {
+      ...state,
+      payload : payload,
       action: ({kind: 'RequestPageType', page : page} as RequestPageType)
     }
     this.appState(state);

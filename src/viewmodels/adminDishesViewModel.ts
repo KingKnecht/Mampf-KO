@@ -2,6 +2,7 @@ import { components, observable, Observable, observableArray, ObservableArray } 
 import { AppState } from "src/framework/appState";
 import { DishesService } from "src/framework/DishesService";
 import { AdminAddDishViewModel } from "./adminAddDishViewModel";
+import { AdminEditDishViewModel } from "./adminEditDishViewModel";
 import { BaseViewModel } from "./baseViewModel";
 
 
@@ -26,7 +27,9 @@ export class AdminDishesViewModel extends BaseViewModel {
     this.requestPage('ADMIN_ADD_DISH')
   }
 
-
+  openEditDish = (dish:IDish) => {
+    this.requestPageWithDish('ADMIN_EDIT_DISH', dish)
+  }
  
   onPageEnter = () => {
     (async () => {

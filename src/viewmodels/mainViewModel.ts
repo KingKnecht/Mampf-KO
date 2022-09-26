@@ -1,6 +1,7 @@
 import { components, computed, Computed, observable, Observable } from 'knockout'
 import { AppState, RequestPageType, LogoutAdminType } from 'src/framework/appState';
 import { AdminAddDishViewModel } from './adminAddDishViewModel';
+import { AdminEditDishViewModel } from './adminEditDishViewModel';
 import { AdminDishesViewModel } from './adminDishesViewModel';
 import { AdminLoginViewModel } from './adminLoginViewModel';
 import { AdminPlanningViewModel } from './adminPlanningViewModel';
@@ -21,9 +22,11 @@ export class MainViewModel extends BaseViewModel {
     readonly isAdminPlanningActive: Computed<boolean>;
     readonly isOverviewActive: Computed<boolean>;
     readonly isAdminAddDishActive: Computed<boolean>;
+    readonly isAdminEditDishActive: Computed<boolean>;
     readonly adminDishesViewModel: AdminDishesViewModel;
     readonly adminPlanningViewModel: AdminPlanningViewModel;
     readonly adminAddDishViewModel: AdminAddDishViewModel;
+    readonly adminEditDishViewModel: AdminEditDishViewModel;
 
     constructor(appState: Observable<AppState>,
         navigationViewModel: NavigationViewModel,
@@ -32,6 +35,7 @@ export class MainViewModel extends BaseViewModel {
         adminDishesViewModel: AdminDishesViewModel,
         adminPlanningViewModel: AdminPlanningViewModel,
         adminAddDishViewModel: AdminAddDishViewModel,
+        adminEditDishViewModel : AdminEditDishViewModel
     ) {
 
         super(appState);
@@ -42,10 +46,12 @@ export class MainViewModel extends BaseViewModel {
         this.adminDishesViewModel = adminDishesViewModel;
         this.adminPlanningViewModel = adminPlanningViewModel;
         this.adminAddDishViewModel = adminAddDishViewModel;
+        this.adminEditDishViewModel = adminEditDishViewModel;
 
         this.isAdminLoginActive = computed(() => { return this.appState().activePage === 'ADMIN_LOGIN' });
         this.isAdminDishesActive = computed(() => { return this.appState().activePage === 'ADMIN_DISHES' });
         this.isAdminAddDishActive = computed(() => { return this.appState().activePage === 'ADMIN_ADD_DISH' });
+        this.isAdminEditDishActive = computed(() => { return this.appState().activePage === 'ADMIN_EDIT_DISH' });
         this.isAdminPlanningActive = computed(() => { return this.appState().activePage === 'ADMIN_PLANNING' });
         this.isOverviewActive = computed(() => { return this.appState().activePage === 'OVERVIEW' });
 
@@ -53,6 +59,7 @@ export class MainViewModel extends BaseViewModel {
         //Listen to activation of Pages
         this.isAdminDishesActive.subscribe(value => value ? this.adminDishesViewModel.onPageEnter() : this.adminDishesViewModel.onPageLeave());
         this.isAdminAddDishActive.subscribe(value => value ? this.adminAddDishViewModel.onPageEnter() : this.adminAddDishViewModel.onPageLeave());
+        this.isAdminEditDishActive.subscribe(value => value ? this.adminEditDishViewModel.onPageEnter() : this.adminEditDishViewModel.onPageLeave());
 
         this.appState.subscribe((state: AppState) => {
 
@@ -81,6 +88,11 @@ export class MainViewModel extends BaseViewModel {
                                     this.setActivePage(state, pageRequest);
                                 }
                                 break;
+                            case 'ADMIN_EDIT_DISH':
+                                    if (state.isAdmin && state.activePage !== "ADMIN_EDIT_DISH") {
+                                        this.setActivePage(state, pageRequest);
+                                    }
+                                    break;
                             default:
                                 throw Error("unknown requested page: " + pageRequest.page)
                         }

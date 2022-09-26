@@ -1,0 +1,84 @@
+<!-- <div data-bind="with: vm.formVm" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"> -->
+    <div data-bind="with: vm.formVm" class="w-full bg-gray-900 h-full">
+
+        <div class="flex items-center justify-center">
+          <!-- <div data-bind="text: console.log($data)"></div> -->
+          <form class="w-full sm:w-2/3 bg-gray-700 rounded-lg mt-10" data-bind="submit: $data.handleSubmit">
+            <h2 class="text-3xl text-center text-gray-300 my-4">Edit Dish</h2>
+            <div class="px-4 pb-10">
+              <div class="w-full mb-2">
+                <div class="flex flex-col items-center">
+                  <input type='text' placeholder="* Dish Name"
+                    class="w-full border rounded px-3 py-2 text-gray-700 focus:outline-none"
+                    data-bind="textInput: $data.dishName" />
+                  <p class="self-start text-red-500" data-bind="validationMessage: $data.dishName"></p>
+                </div>
+              </div>
+              <div class="w-full mb-2">
+                <div class="flex items-center">
+                  <textarea rows="4" cols="50" placeholder="Description"
+                    class="form-textarea w-full block border rounded px-3 py-2 text-gray-700 focus:outline-none"
+                    data-bind="value : $data.description"></textarea>
+                </div>
+      
+              </div>
+      
+              <div>
+                <p class="text-gray-300 my-2">Ingredients</p>
+                <!-- <div class="flex flex-wrap"> -->
+                <div class="mb-4" data-bind="foreach: {data : $data.currentIncredients, as: 'ingredient'}">
+                  <div class="rounded bg-gray-600 p-2 mb-2">
+                    
+                    <button
+                      class="h-8 my-2 inline-flex items-center bg-green-500 text-white active:bg-green-700 font-bold uppercase text-xs px-4 rounded hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                      data-bind="click: $parent.editIngredient, hidden: ingredient.isEditing" type="button">
+                      <img class="h-6 w-6" src="./images/edit.svg" />
+                    </button>
+                    <button
+                      class="h-8 my-2 inline-flex items-center bg-green-500 text-white active:bg-green-700 font-bold uppercase text-xs px-4 rounded hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                      data-bind="click: $parent.stopEditIngredient, visible:ingredient.isEditing" type="button">
+                      <img class="h-6 w-6" src="./images/tick.svg" />
+                    </button>
+                    <button
+                      class="h-8 my-2 ml-4 inline-flex items-center bg-red-500 text-white active:bg-red-700 font-bold uppercase text-xs px-4 rounded hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                      data-bind="click: $parent.deleteIngredient" type="button">
+                      <img class="h-6 w-6" src="./images/delete.svg" />
+                    </button>
+      
+                    <div class="flex space-x-2">
+                      <input type="text" readonly data-bind="value: ingredient.name, attr: {readonly : !ingredient.isEditing()}"
+                        class="h-8 w-6/12 input" />
+                      <input type="number" readonly data-bind="value: ingredient.amount, attr: {readonly : !ingredient.isEditing()}"
+                        class="h-8  w-3/12 input" />
+                      <input type="text" readonly data-bind="value: ingredient.unit, attr: {readonly : !ingredient.isEditing()}"
+                        class="h-8 w-2/12 input" />
+                    </div>
+      
+                  </div>
+                </div>
+      
+                <div class="flex space-x-2">
+                  <input type="text" class="h-10 w-6/12 input"
+                    data-bind="value: $data.ingredientName" placeholder="Ingredient" />
+                  <input type="number" class="h-10 w-3/12 input"
+                    data-bind="numeric, value: $data.amount" />
+                  <input type="text" class="h-10 w-2/12 input"
+                    data-bind="value: $data.unit" placeholder="unit" />
+                  <button
+                    class="h-10 inline-flex items-center bg-green-500 text-white active:bg-green-700 font-bold text-xs px-4 rounded hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                    data-bind="click: $data.addIngredient" type="button">
+                    <img class="h-6 w-6" src="./images/add.svg" />
+      
+                  </button>
+                </div>
+                <!-- </div> -->
+              </div>
+      
+      
+              <button type="cancel" class="w-full mt-4 py-2 rounded-full bg-gray-500 text-gray-100  focus:outline-none"
+                data-bind="click: $data.handleCancel">Cancel</button>
+              <button type="submit" data-bind="enable: $data.isFormValid"
+                class="w-full mt-4 py-2 rounded-full bg-green-500 text-gray-100 disabled:cursor-not-allowed disabled:text-opacity-30 focus:outline-none">Save</button>
+          </form>
+        </div>
+      </div>
