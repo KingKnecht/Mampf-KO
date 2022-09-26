@@ -126,8 +126,8 @@ class EditDishFormViewModel extends BaseViewModel {
     }
 
     handleSubmit = () => {
-        this.dishesService.add({
-            id: undefined,
+        this.dishesService.update({
+            id: this.id,
             name: this.dishName(),
             description: this.description(),
             persons: 1,

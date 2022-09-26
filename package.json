@@ -38,7 +38,9 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.3.4",
+    "@types/uuid": "^8.3.4",
     "knockout": "^3.5.1",
-    "knockout.validation": "^2.0.4"
+    "knockout.validation": "^2.0.4",
+    "uuid": "^9.0.0"
   }
 }
