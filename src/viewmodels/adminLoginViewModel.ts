@@ -16,7 +16,7 @@ export class AdminLoginViewModel extends BaseViewModel{
   password: Observable<string> = observable('')
 
   constructor(appState: Observable<AppState>) {
-    super(appState);
+    super(appState); 
   }
 
   handleSubmit = () => {
