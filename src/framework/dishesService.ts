@@ -32,7 +32,7 @@ export class DishesService {
     },
     {
       id: uuidv4(),
-      name: 'yyy',
+      name: 'Gaisburger Marsch + Nachtisch',
       description: '',
       ingredients: [],
       persons: 1

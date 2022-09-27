@@ -1,4 +1,6 @@
-<div class="bg-gray-900 h-full w-full">
+<div class="bg-gray-900 h-full w-full mb-4">
+
+
 
   <div
     class="inline-flex content-center justify-center flex-wrap modal fade  fixed w-full h-full outline-none overflow-x-hidden overflow-y-auto"
@@ -40,6 +42,15 @@
 
   <div class="flex flex-col items-center justify-center">
 
+    <a href="#" data-bind="click: vm.openAddDish"
+      class="mt-4 bg-green-500 hover:bg-green-700 text-gray-200 py-2 px-4 font-medium rounded inline-flex items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="white" viewBox="0 0 5 5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.1"
+          d="M2 1 h1 v1 h1 v1 h-1 v1 h-1 v-1 h-1 v-1 h1 z" />
+      </svg>
+      Add Dish
+    </a>
+
     <div data-bind="css: {hidden: vm.dishesCount() > 0}"
       class="bg-gray-700 text-gray-200 w-4/12 rounded px-3 py-2 my-4 border-2 border-gray-400 font-medium">
       <p class="text-center">No dishes have been added yet</p>
@@ -51,8 +62,8 @@
           <div class="flex flex-col"
             data-bind="css: {'items-center': description.length === 0, 'justify-center': description.length === 0}">
 
-            <div class="text-gray-200 text-2xl font-bold text-center" data-bind="text: name"></div>
-            <div class="text-gray-200 text-xl text-left" data-bind="text: description"></div>
+            <div class="text-gray-200 text-xs sm:text-xl lg:text-2xl font-bold text-center" data-bind="text: name"></div>
+            <div class="text-gray-200 text-xs sm:text-xs lg:text-xl text-left" data-bind="text: description"></div>
           </div>
 
           <div class="flex flex-col flex-shrink-0 justify-center border-l-2 ml-4">
@@ -73,13 +84,6 @@
     </div>
 
 
-    <a href="#" data-bind="click: vm.openAddDish"
-      class="bg-green-500 hover:bg-green-700 text-gray-200 py-2 px-4 font-medium rounded inline-flex items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="white" viewBox="0 0 5 5" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.1"
-          d="M2 1 h1 v1 h1 v1 h-1 v1 h-1 v-1 h-1 v-1 h1 z" />
-      </svg>
-      Add Dish
-    </a>
+
   </div>
 </div>
