@@ -29,12 +29,117 @@ export class DishesService {
       description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua',
       ingredients: [],
       persons: 1
-    }
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'yyy',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
   ]
 
   add = async (dish: IDish): Promise<void> => {
     dish.id = uuidv4();
-    
+
     //give Id to all ingredients
     dish.ingredients = dish.ingredients.map(i => {
       if (i.id === undefined)
@@ -63,7 +168,12 @@ export class DishesService {
         return i;
     });
 
-    this.dishes =this.dishes.map(d => d.id == dish.id ? dish : d);
+    this.dishes = this.dishes.map(d => d.id == dish.id ? dish : d);
+    return Promise.resolve();
+  }
+
+  delete = async (dish: IDish) :  Promise<void>=> {
+    this.dishes = this.dishes.filter(d => d.id !== dish.id)
     return Promise.resolve();
   }
 

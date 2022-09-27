@@ -10,9 +10,11 @@ import { BaseViewModel } from "./baseViewModel";
 
 export class AdminDishesViewModel extends BaseViewModel {
 
+  //Todo: convert dishesCount & isAskingForDeletion to computed observables?
   dishesCount: Observable<number> = observable(0);
   dishes: ObservableArray<IDish> = observableArray();
-
+  toBeDeletedDish: Observable<IDish | undefined> = observable();
+  public readonly isAskingForDeletion: Observable<boolean> = observable(false);
 
   private readonly dishesService: DishesService;
 
@@ -27,10 +29,29 @@ export class AdminDishesViewModel extends BaseViewModel {
     this.requestPage('ADMIN_ADD_DISH')
   }
 
-  openEditDish = (dish:IDish) => {
+  openEditDish = (dish: IDish) => {
     this.requestPageWithDish('ADMIN_EDIT_DISH', dish)
   }
- 
+
+  deleteDish = (dish: IDish) => {
+    this.toBeDeletedDish(dish);
+    this.isAskingForDeletion(true);
+  }
+
+  acknowlageDeleteDish = () => {
+    if (this.toBeDeletedDish() !== undefined) {
+      this.dishesService.delete(this.toBeDeletedDish() as IDish)
+      this.toBeDeletedDish(undefined);
+      this.isAskingForDeletion(false);
+      this.onPageEnter();
+    }
+  }
+
+  cancelDeleteDish = () => {
+    this.toBeDeletedDish(undefined);
+    this.isAskingForDeletion(false);
+  }
+
   onPageEnter = () => {
     (async () => {
       this.dishes(await this.dishesService.getDishes());
