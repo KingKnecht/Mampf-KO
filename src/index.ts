@@ -58,9 +58,9 @@ async function init(){
     const overviewViewModel = new OverviewViewModel(appStateObservable);
     const adminAddDishViewModel = new AdminAddDishViewModel(appStateObservable,dishService);
     const adminEditDishViewModel = new AdminEditDishViewModel(appStateObservable,dishService);
-
     const adminDishesViewModel = new AdminDishesViewModel(appStateObservable,dishService);
     const adminPlanningViewModel = new AdminPlanningViewModel(appStateObservable);
+    
     const mainViewModel = new MainViewModel(appStateObservable,
          navigationViewModel,
          adminLoginViewModel,
