@@ -1,3 +1,5 @@
-<div class="text-white">
-    <div data-bind="text: name"></div>
+<div>
+    <div data-bind="foreach: vm.dishes">
+        <div class="text-white" data-bind="text: name"></div>
+    </div>
 </div>
