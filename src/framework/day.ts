@@ -1,6 +1,7 @@
 interface IDay  {
-    name: string,
-    date : string,
+    dayName: string,
+    dayAndMonth : string,
+    date: Date,
     dishes : IDish[]
   }
   

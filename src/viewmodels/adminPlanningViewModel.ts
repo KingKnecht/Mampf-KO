@@ -1,41 +1,45 @@
 import { components, Observable, ObservableArray, observableArray } from "knockout";
 import { AppState } from "src/framework/appState";
 import { BaseViewModel } from "./baseViewModel";
-import { addDays, format, startOfWeek, getWeek } from 'date-fns'
+import { DishesService } from "src/framework/DishesService";
+import { AdminPlanningDayViewModel } from "./adminPlanningDayViewModel";
 
 export class AdminPlanningViewModel extends BaseViewModel {
 
-  days : ObservableArray<IDay> = observableArray();
-  constructor(appState: Observable<AppState>) {
+  dayVms: ObservableArray<AdminPlanningDayViewModel> = observableArray();
+  availableDishes: ObservableArray<IDish> = observableArray();
+  private readonly dishesService: DishesService;
+
+  constructor(appState: Observable<AppState>, dishesService: DishesService) {
     super(appState);
 
-    var firstDayOfWeek = startOfWeek(new Date(), { locale: undefined, weekStartsOn: 1 });
-    const dayNamesOfWeek = Array.from(Array(5)).map((e, i) => format(addDays(firstDayOfWeek, i), 'EEEE'));
-    const datesOfWeek = Array.from(Array(5)).map((e, i) => format(addDays(firstDayOfWeek, i), 'dd MMM'));
+    this.dishesService = dishesService;
 
-    var days = dayNamesOfWeek.map((e, i) => ({
-      name: dayNamesOfWeek[i],
-      date: datesOfWeek[i],
-      dishes: []
-    })) as IDay[];
+    (async () => {
+      var dishes = await this.dishesService.getDishes();
+      this.availableDishes.push(...dishes);
+    })();
 
-    this.days.push(...days);
+    let dayVms = dishesService.createWorkingDaysOfWeek(new Date())
+      .map(d => new AdminPlanningDayViewModel(d, dishesService));
+
+    this.dayVms.push(...dayVms);
   }
 
   onPageEnter(): void {
-    
 
-   
+
+
   }
   onPageLeave(): void {
 
   }
-
-
-
+  
 }
 
 
 export function registerControl() {
   components.register('adminplanning', { template: require('../views/adminPlanningView.html') });
 }
+
+

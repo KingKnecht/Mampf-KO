@@ -1,46 +1,48 @@
 import './tailwind.css'
 import { MainViewModel, registerControl as mainRegisterControl } from './viewmodels/mainViewModel';
 import { NavigationViewModel, registerControl as navigationRegisterControl } from './viewmodels/navigationViewModel';
-import { AdminLoginViewModel, registerControl as adminLoginRegisterControl} from './viewmodels/adminLoginViewModel';
-import { OverviewViewModel, registerControl as overviewRegisterControl} from './viewmodels/overviewViewModel';
+import { AdminLoginViewModel, registerControl as adminLoginRegisterControl } from './viewmodels/adminLoginViewModel';
+import { OverviewViewModel, registerControl as overviewRegisterControl } from './viewmodels/overviewViewModel';
 import { init as kov_init, validateObservable } from 'knockout.validation';
 import { applyBindings, observable } from 'knockout';
 import { AppState } from "src/framework/appState";
 import { AdminDishesViewModel, registerControl as adminDishesRegisterVControl } from './viewmodels/adminDishesViewModel';
 import { AdminPlanningViewModel, registerControl as adminPlanningRegisterControl } from './viewmodels/adminPlanningViewModel';
-import { AdminAddDishViewModel, registerControl as adminAddDishRegisterControl} from "./viewmodels/adminAddDishViewModel";
-import { AdminEditDishViewModel, registerControl as adminEditDishRegisterControl} from "./viewmodels/adminEditDishViewModel";
+import { registerControl as adminPlanningDayRegisterControl } from './viewmodels/adminPlanningDayViewModel';
+import { AdminAddDishViewModel, registerControl as adminAddDishRegisterControl } from "./viewmodels/adminAddDishViewModel";
+import { AdminEditDishViewModel, registerControl as adminEditDishRegisterControl } from "./viewmodels/adminEditDishViewModel";
 import { DishesService } from './framework/DishesService';
 
-async function init(){
+async function init() {
     console.log('init()');
-    
+
     mainRegisterControl();
     navigationRegisterControl();
     adminLoginRegisterControl();
     overviewRegisterControl();
     adminDishesRegisterVControl();
     adminPlanningRegisterControl();
+    adminPlanningDayRegisterControl();
     adminAddDishRegisterControl();
     adminEditDishRegisterControl();
+    
 
-    
-    kov_init({insertMessages: false});
-    
+    kov_init({ insertMessages: false });
+
     const mainview = document.createElement('mainview');
     mainview.setAttribute('params', 'vm: $data');
     mainview.setAttribute('class', 'min-h-full grid');
     const root = document.getElementById("root");
     root?.appendChild(mainview);
 
-    
-    const initalAppState : AppState = {
-        username : undefined,
-        isAdmin : true,
-        activePage : "OVERVIEW",
-        action :  {kind : 'RequestPageType', page : 'OVERVIEW'},
-        previousPage : "OVERVIEW",
-        payload : undefined
+
+    const initalAppState: AppState = {
+        username: undefined,
+        isAdmin: true,
+        activePage: "OVERVIEW",
+        action: { kind: 'RequestPageType', page: 'OVERVIEW' },
+        previousPage: "OVERVIEW",
+        payload: undefined
     }
 
     // const initalAppState : AppState = {
@@ -56,20 +58,20 @@ async function init(){
     const adminLoginViewModel = new AdminLoginViewModel(appStateObservable);
     const navigationViewModel = new NavigationViewModel(appStateObservable);
     const overviewViewModel = new OverviewViewModel(appStateObservable);
-    const adminAddDishViewModel = new AdminAddDishViewModel(appStateObservable,dishService);
-    const adminEditDishViewModel = new AdminEditDishViewModel(appStateObservable,dishService);
-    const adminDishesViewModel = new AdminDishesViewModel(appStateObservable,dishService);
-    const adminPlanningViewModel = new AdminPlanningViewModel(appStateObservable);
-    
+    const adminAddDishViewModel = new AdminAddDishViewModel(appStateObservable, dishService);
+    const adminEditDishViewModel = new AdminEditDishViewModel(appStateObservable, dishService);
+    const adminDishesViewModel = new AdminDishesViewModel(appStateObservable, dishService);
+    const adminPlanningViewModel = new AdminPlanningViewModel(appStateObservable, dishService);
+
     const mainViewModel = new MainViewModel(appStateObservable,
-         navigationViewModel,
-         adminLoginViewModel,
-         overviewViewModel,
-         adminDishesViewModel,
-         adminPlanningViewModel,
-         adminAddDishViewModel,
-         adminEditDishViewModel);
-    
+        navigationViewModel,
+        adminLoginViewModel,
+        overviewViewModel,
+        adminDishesViewModel,
+        adminPlanningViewModel,
+        adminAddDishViewModel,
+        adminEditDishViewModel);
+
     applyBindings(mainViewModel, root);
 }
 

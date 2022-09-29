@@ -1,11 +1,24 @@
 <div class="bg-gray-900 h-full w-full">
-    <span class="text-white">Planning</span>
+  <span class="text-white">Planning</span>
 
-    <div data-bind="foreach: vm.days" class="flex flex-wrap flex-row justify-center">
-        <div class="border-2 border-gray-400 rounded p-4 m-4 flex-1">       
-            <div class="text-white text-center" data-bind="text: name"></div>
-            <div class="text-white text-center" data-bind="text: date"></div>
-            
-        </div>
+  <div data-bind="foreach: vm.dayVms" class="flex flex-wrap flex-row justify-center">
+    <div class="border-2 border-gray-400 rounded p-4 m-4 flex-1">
+      <div class="text-white text-center" data-bind="text: dayName"></div>
+      <div class="text-white text-center" data-bind="text: dayAndMonth"></div>
+      <div class="">
+        <!-- <select onchange="this.nextElementSibling.value=this.value"> -->
+        <select data-bind="options: $parent.vm.availableDishes, optionsText: 'name'">
+        </select>
+        <!-- <input type="text" name="format" value=""/> -->
+      </div>
+      <div data-bind="foreach: dishes">
+        <div class="text-white" data-bind="text: name"></div>
+      </div>
+      
     </div>
+
+  </div>
+
+
+</div>
 </div>
