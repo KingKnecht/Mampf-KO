@@ -1,4 +1,5 @@
 import './tailwind.css'
+import 'tw-elements';
 import { MainViewModel, registerControl as mainRegisterControl } from './viewmodels/mainViewModel';
 import { NavigationViewModel, registerControl as navigationRegisterControl } from './viewmodels/navigationViewModel';
 import { AdminLoginViewModel, registerControl as adminLoginRegisterControl } from './viewmodels/adminLoginViewModel';

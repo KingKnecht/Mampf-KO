@@ -5,20 +5,11 @@
     <div class="border-2 border-gray-400 rounded p-4 m-4 flex-1">
       <div class="text-white text-center" data-bind="text: dayName"></div>
       <div class="text-white text-center" data-bind="text: dayAndMonth"></div>
-      <div class="">
-        <!-- <select onchange="this.nextElementSibling.value=this.value"> -->
-        <select data-bind="options: $parent.vm.availableDishes, optionsText: 'name'">
-        </select>
-        <!-- <input type="text" name="format" value=""/> -->
-      </div>
+
       <adminplanningday params="vm: $data"></adminplanningday>
-      <!-- <div data-bind="foreach: dishes">
-        <div class="text-white" data-bind="text: name"></div>-->
-      
     </div>
 
   </div>
 
 
-</div>
 </div>

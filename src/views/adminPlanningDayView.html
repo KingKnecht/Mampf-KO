@@ -1,5 +1,33 @@
 <div>
-    <div data-bind="foreach: vm.dishes">
+    <select
+        data-bind="options: vm.availableDishes,value: vm.selectedDish, optionsText: 'name', optionsCaption: 'Select a dish...'">
+    </select>
+    <div data-bind="hidden: vm.selectedDish() === undefined">
+        <div class="text-white" data-bind="text: vm.selectedDish() === undefined ? '' : vm.selectedDish().name"></div>
+
+
+        <div class="flex justify-center">
+            <div class="timepicker relative form-floating mb-3 xl:w-96" data-mdb-with-icon="false"
+                id="input-toggle-timepicker">
+                <input type="text"
+                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    placeholder="Select a date" data-mdb-toggle="input-toggle-timepicker" />
+                <label for="floatingInput" class="text-gray-700">Select a time</label>
+            </div>
+        </div>
+
+        <a href="#" data-bind="click: vm.addDish"
+            class="mt-4 bg-green-500 hover:bg-green-700 text-gray-200 py-2 px-4 font-medium rounded inline-flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="white" viewBox="0 0 5 5" \
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.1"
+                    d="M2 1 h1 v1 h1 v1 h-1 v1 h-1 v-1 h-1 v-1 h1 z" />
+            </svg>
+            Add Dish
+        </a>
+    </div>
+    <!-- <div class="text-white" data-bind="text: console.log(vm)"></div> -->
+    <div data-bind="foreach: vm.plannedDishes">
         <div class="text-white" data-bind="text: name"></div>
     </div>
 </div>
