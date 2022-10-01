@@ -9,5 +9,17 @@
   .input {
     @apply border rounded px-3 py-2 text-gray-700 focus:outline-none read-only:bg-gray-500 read-only:text-gray-100;
   }
+  .select {
+    @apply form-select outline-none border-none read-only:bg-gray-500 read-only:text-gray-100;
+  }
+  .default-text {
+    @apply text-gray-300 text-xs sm:text-xs lg:text-xl;
+  }
+  .default-text-header {
+    @apply text-gray-400 text-xs sm:text-xl lg:text-2xl font-bold;
+  }
+  .default-box {
+    @apply border-2 border-gray-400 rounded p-4;
+  }
 
 }

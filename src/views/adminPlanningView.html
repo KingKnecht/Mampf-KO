@@ -1,11 +1,10 @@
 <div class="bg-gray-900 h-full w-full">
-  <span class="text-white">Planning</span>
-
   <div data-bind="foreach: vm.dayVms" class="flex flex-wrap flex-row justify-center">
-    <div class="border-2 border-gray-400 rounded p-4 m-4 flex-1">
-      <div class="text-white text-center" data-bind="text: dayName"></div>
-      <div class="text-white text-center" data-bind="text: dayAndMonth"></div>
-
+    <div class="default-box m-4 flex-1">
+      <div class="border-gray-400 border-b-2 p-4 m-4 flex-1">
+        <div class="default-text-header text-center" data-bind="text: dayName"></div>
+        <div class="default-text-header text-center" data-bind="text: dayAndMonth"></div>
+      </div>
       <adminplanningday params="vm: $data"></adminplanningday>
     </div>
 

@@ -6,4 +6,8 @@ interface IDish  {
   persons : number
 }
 
+interface IPlannedDish extends IDish {
+  closing : Date
+}
+
 

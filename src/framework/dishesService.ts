@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { addDays, format, startOfWeek, getWeek } from 'date-fns'
+import { addDays, format, startOfWeek, getWeek, addHours, addMinutes } from 'date-fns'
 
 export class DishesService {
 
@@ -7,7 +7,7 @@ export class DishesService {
   private dishes: IDish[] = [
     {
       id: uuidv4(),
-      name: 'Spätzle mit Soße',
+      name: 'Spätzle mit Soß',
       description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua',
       persons: 1,
       ingredients: [{
@@ -40,7 +40,70 @@ export class DishesService {
     },
     {
       id: uuidv4(),
-      name: 'yyy',
+      name: 'Mozzarella-Hähnchen in Basilikum-Sahnesauce',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'Toskanischer Hähnchen-Auflauf',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'Champignon-Kartoffel-Omelette',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'Maultaschen-Pilz-Pfanne',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'Lachsfilet mit kalter Joghurt-Sauce mit Dill und Kapern',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'Gekräutertes Schweinefilet im Speckmantel in Zwetschgensauce',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'Kaltes Schweinefilet',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'Filettopf',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'Kartoffel-Brokkoli-Auflauf',
+      description: '',
+      ingredients: [],
+      persons: 1
+    },
+    {
+      id: uuidv4(),
+      name: 'Bauerntopf',
       description: '',
       ingredients: [],
       persons: 1
@@ -54,84 +117,21 @@ export class DishesService {
     },
     {
       id: uuidv4(),
-      name: 'yyy',
+      name: 'Philadelphia-Hähnchen',
       description: '',
       ingredients: [],
       persons: 1
     },
     {
       id: uuidv4(),
-      name: 'yyy',
+      name: 'Käsespätzle',
       description: '',
       ingredients: [],
       persons: 1
     },
     {
       id: uuidv4(),
-      name: 'yyy',
-      description: '',
-      ingredients: [],
-      persons: 1
-    },
-    {
-      id: uuidv4(),
-      name: 'yyy',
-      description: '',
-      ingredients: [],
-      persons: 1
-    },
-    {
-      id: uuidv4(),
-      name: 'yyy',
-      description: '',
-      ingredients: [],
-      persons: 1
-    },
-    {
-      id: uuidv4(),
-      name: 'yyy',
-      description: '',
-      ingredients: [],
-      persons: 1
-    },
-    {
-      id: uuidv4(),
-      name: 'yyy',
-      description: '',
-      ingredients: [],
-      persons: 1
-    },
-    {
-      id: uuidv4(),
-      name: 'yyy',
-      description: '',
-      ingredients: [],
-      persons: 1
-    },
-    {
-      id: uuidv4(),
-      name: 'yyy',
-      description: '',
-      ingredients: [],
-      persons: 1
-    },
-    {
-      id: uuidv4(),
-      name: 'yyy',
-      description: '',
-      ingredients: [],
-      persons: 1
-    },
-    {
-      id: uuidv4(),
-      name: 'yyy',
-      description: '',
-      ingredients: [],
-      persons: 1
-    },
-    {
-      id: uuidv4(),
-      name: 'yyy',
+      name: 'Saftiger Kürbis-Gnocchi-Auflauf',
       description: '',
       ingredients: [],
       persons: 1
@@ -140,8 +140,8 @@ export class DishesService {
 
   private days: IDay[] = []
 
-  createWorkingDaysOfWeek = (startDate : Date) : IDay[] => {
-    
+  createWorkingDaysOfWeek = (startDate: Date): IDay[] => {
+
     const firstDayOfWeek = startOfWeek(startDate, { locale: undefined, weekStartsOn: 1 });
     const dayNamesOfWeek = Array.from(Array(5)).map((e, i) => format(addDays(firstDayOfWeek, i), 'EEEE'));
     const datesOfWeek = Array.from(Array(5)).map((e, i) => format(addDays(firstDayOfWeek, i), 'dd MMM'));
@@ -202,16 +202,24 @@ export class DishesService {
     return Promise.resolve(this.dishes);
   }
 
-  getPlannedDishesOfDay = async (day: IDay): Promise<IDish[]> => {
+  getPlannedDishesOfDay = async (day: IDay): Promise<IPlannedDish[]> => {
     let workingDaysOfWeek = this.createWorkingDaysOfWeek(new Date());
-    
+
     let dishesOfWeek = workingDaysOfWeek
       .filter(d => d.date.toDateString() === day.date.toDateString())
-      .map(d =>d.dishes)
-      .reduce((a,b) => a.concat(b)); 
+      .map(d => d.dishes)
+      .reduce((a, b) => a.concat(b));
 
     return Promise.resolve(dishesOfWeek)
     //return Promise.resolve([this.dishes[0]])
+  }
+  addPlannedDish = async (dish : IDish, day: IDay,  hour: number, minute: number) : Promise<IPlannedDish[]> => {
+    day.dishes.push({
+      ...dish,
+      closing : addMinutes(addHours(day.date, hour), minute)
+    } as IPlannedDish);
+
+    return Promise.resolve(day.dishes);
   }
 
 

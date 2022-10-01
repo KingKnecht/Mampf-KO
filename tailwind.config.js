@@ -9,7 +9,6 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    
     extend: {
       screens : {
         'ssm' : '360px',

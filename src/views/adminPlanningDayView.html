@@ -1,33 +1,63 @@
 <div>
-    <select
-        data-bind="options: vm.availableDishes,value: vm.selectedDish, optionsText: 'name', optionsCaption: 'Select a dish...'">
-    </select>
-    <div data-bind="hidden: vm.selectedDish() === undefined">
-        <div class="text-white" data-bind="text: vm.selectedDish() === undefined ? '' : vm.selectedDish().name"></div>
-
-
+    <div class="default-text my-4">Select dish:</div>
+    <div class="flex justify-center">
+        <div class="flex input">
+            <!-- <select class="select default-text w-48 sm:w-auto"
+                data-bind="foreach: vm.availableDishes,value: vm.selectedDish, optionsText: 'name', optionsCaption: 'Select a dish...'">
+                <option class="default-text" data-bind="text: name"></option>
+            </select> -->
+            <select class="select default-text w-48 sm:w-auto"
+                data-bind="options: vm.availableDishes,value: vm.selectedDish, optionsText: 'name', optionsCaption: 'Select a dish...'">
+                
+            </select>
+        </div>
+    </div>
+    <div data-bind="hidden: vm.selectedDish() === undefined" class="border-b-2 border-gray-400">
+        <div class="default-text my-4">Disable enlisting at:</div>
         <div class="flex justify-center">
-            <div class="timepicker relative form-floating mb-3 xl:w-96" data-mdb-with-icon="false"
-                id="input-toggle-timepicker">
-                <input type="text"
-                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    placeholder="Select a date" data-mdb-toggle="input-toggle-timepicker" />
-                <label for="floatingInput" class="text-gray-700">Select a time</label>
+            <div class="p-2 input">
+                <div class="flex">
+                    <select name="hours" class="select default-text" data-bind="value: vm.selectedHour">
+                        <option class="default-text" value="9">9</option>
+                        <option class="default-text" value="10">10</option>
+                        <option class="default-text" value="11">10</option>
+                        <option class="default-text" value="12">12</option>
+                        <option class="default-text" value="13">13</option>
+                        <option class="default-text" value="14">14</option>
+                        <option class="default-text" value="15">15</option>
+                        <option class="default-text" value="16">16</option>
+                        <option class="default-text" value="17">17</option>
+                        <option class="default-text" value="18">18</option>
+
+                    </select>
+                    <span class="text-xl ml-1 mr-1 mt-2">:</span>
+                    <select name="minutes" class="default-text select mr-2" data-bind="value: vm.selectedMinute">
+                        <option class="default-text" value="0">00</option>
+                        <option class="default-text" value="30">30</option>
+                    </select>
+                </div>
             </div>
         </div>
 
-        <a href="#" data-bind="click: vm.addDish"
-            class="mt-4 bg-green-500 hover:bg-green-700 text-gray-200 py-2 px-4 font-medium rounded inline-flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="white" viewBox="0 0 5 5" \
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.1"
-                    d="M2 1 h1 v1 h1 v1 h-1 v1 h-1 v-1 h-1 v-1 h1 z" />
-            </svg>
-            Add Dish
-        </a>
+        <div class="flex justify-center">
+            <a href="#" data-bind="click: vm.addPlannedDish"
+                class="my-4 bg-green-500 hover:bg-green-700 text-gray-200 text-2xl py-2 px-4 font-medium rounded inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="white" viewBox="0 0 5 5" \
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.1"
+                        d="M2 1 h1 v1 h1 v1 h-1 v1 h-1 v-1 h-1 v-1 h1 z" />
+                </svg>
+                Add Dish
+            </a>
+        </div>
+
     </div>
-    <!-- <div class="text-white" data-bind="text: console.log(vm)"></div> -->
+    <!-- <div class="text-white" data-bind="text: innerWidth"></div>
+    <div class="text-white" data-bind="text: outerWidth"></div> -->
+    <div class="default-text-header my-4">Planned dishes:</div>
     <div data-bind="foreach: vm.plannedDishes">
-        <div class="text-white" data-bind="text: name"></div>
+        <div class="flex">
+            <div class="default-text-header" data-bind="text: name"></div>
+        </div>
     </div>
 </div>
