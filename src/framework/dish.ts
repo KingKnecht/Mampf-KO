@@ -7,6 +7,7 @@ interface IDish  {
 }
 
 interface IPlannedDish extends IDish {
+  planningId : string,
   closing : Date
 }
 

@@ -146,14 +146,14 @@ export class DishesService {
     const dayNamesOfWeek = Array.from(Array(5)).map((e, i) => format(addDays(firstDayOfWeek, i), 'EEEE'));
     const datesOfWeek = Array.from(Array(5)).map((e, i) => format(addDays(firstDayOfWeek, i), 'dd MMM'));
 
-    let daysObj = dayNamesOfWeek.map((e, i) => ({
+    this.days = dayNamesOfWeek.map((e, i) => ({
       dayName: dayNamesOfWeek[i],
       dayAndMonth: datesOfWeek[i],
       date: addDays(firstDayOfWeek, i),
-      dishes: [this.dishes[0], this.dishes[2]]
+      dishes: []
     })) as IDay[];
 
-    return daysObj;
+    return this.days;
   }
 
 
@@ -206,20 +206,40 @@ export class DishesService {
     let workingDaysOfWeek = this.createWorkingDaysOfWeek(new Date());
 
     let dishesOfWeek = workingDaysOfWeek
-      .filter(d => d.date.toDateString() === day.date.toDateString())
+      .filter(d => d.date.toISOString() === day.date.toISOString())
       .map(d => d.dishes)
       .reduce((a, b) => a.concat(b));
 
     return Promise.resolve(dishesOfWeek)
-    //return Promise.resolve([this.dishes[0]])
-  }
-  addPlannedDish = async (dish : IDish, day: IDay,  hour: number, minute: number) : Promise<IPlannedDish[]> => {
-    day.dishes.push({
-      ...dish,
-      closing : addMinutes(addHours(day.date, hour), minute)
-    } as IPlannedDish);
 
-    return Promise.resolve(day.dishes);
+  }
+  addPlannedDish = async (dish: IDish, day: IDay, hour: number, minute: number): Promise<IPlannedDish[]> => {
+
+    let foundDay = this.days.find(d => d.date.toISOString() === day.date.toISOString());
+    if (foundDay !== undefined) {
+      foundDay.dishes.push({
+        ...dish,
+        planningId : uuidv4(),
+        closing: addMinutes(addHours(day.date, hour), minute)
+      } as IPlannedDish);
+
+      return Promise.resolve(foundDay.dishes);
+    }
+
+    throw "This should not happen.";
+  }
+
+  deletePlannedDish = async (dish: IPlannedDish, day: IDay): Promise<IPlannedDish[]> => {
+    let foundDay = this.days.find(d => d.date.toISOString() === day.date.toISOString());
+
+    if (foundDay !== undefined) {
+
+      foundDay.dishes = foundDay?.dishes.filter(d => d.planningId !== dish.planningId);
+
+      return Promise.resolve(foundDay?.dishes);
+    }
+
+    throw "This should not happen.";
   }
 
 
