@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { addDays, format, startOfWeek, getWeek, addHours, addMinutes } from 'date-fns'
+import { addDays, format, startOfWeek, getWeek, addHours, addMinutes, setDay, setMonth, setHours, setMinutes } from 'date-fns'
 
 export class DishesService {
 
@@ -110,13 +110,6 @@ export class DishesService {
     },
     {
       id: uuidv4(),
-      name: 'yyy',
-      description: '',
-      ingredients: [],
-      persons: 1
-    },
-    {
-      id: uuidv4(),
       name: 'Philadelphia-Hähnchen',
       description: '',
       ingredients: [],
@@ -208,19 +201,29 @@ export class DishesService {
     let dishesOfWeek = workingDaysOfWeek
       .filter(d => d.date.toISOString() === day.date.toISOString())
       .map(d => d.dishes)
-      .reduce((a, b) => a.concat(b));
+      .reduce((a, b) => a.concat(b), []);
 
     return Promise.resolve(dishesOfWeek)
 
   }
-  addPlannedDish = async (dish: IDish, day: IDay, hour: number, minute: number): Promise<IPlannedDish[]> => {
+  addPlannedDish = async (dish: IDish, day: IDay, closingHour: number, closingMinute: number, closingMonth: number, closingDay: number): Promise<IPlannedDish[]> => {
 
     let foundDay = this.days.find(d => d.date.toISOString() === day.date.toISOString());
     if (foundDay !== undefined) {
+
+      //Todo: do something clever with the year
+      let closingDate = setMonth(day.date, closingMonth);
+      closingDate = setDay(closingDate, closingDay, {weekStartsOn: 1});
+      closingDate = setHours(closingDate, closingHour);
+      closingDate = setMinutes(closingDate, closingMinute);
+
+      if(closingDate < new Date()) throw "closing date must not be less than current date";
+      if(closingDate > day.date) throw "closing date must not be greater than date of planning day";
+      
       foundDay.dishes.push({
         ...dish,
-        planningId : uuidv4(),
-        closing: addMinutes(addHours(day.date, hour), minute)
+        planningId: uuidv4(),
+        closing: closingDate
       } as IPlannedDish);
 
       return Promise.resolve(foundDay.dishes);

@@ -13,13 +13,22 @@
     @apply form-select outline-none border-none read-only:bg-gray-500 read-only:text-gray-100;
   }
   .default-text {
-    @apply text-gray-300 text-xs sm:text-xs lg:text-xl;
+    @apply text-gray-400 text-xs sm:text-xs lg:text-xl;
   }
   .default-text-header {
     @apply text-gray-400 text-xs sm:text-xl lg:text-2xl font-bold;
   }
   .default-box {
     @apply border-2 border-gray-400 rounded p-4;
+  }
+  .default-button-green {
+    @apply bg-green-500 hover:bg-green-700 focus:outline-none text-xs sm:text-xs lg:text-2xl text-gray-100  font-bold py-2 px-4 rounded disabled:cursor-not-allowed disabled:opacity-50  hover:shadow-md outline-none ease-linear transition-all duration-150;
+  }
+  .default-button-red {
+    @apply bg-red-500 hover:bg-red-700 focus:outline-none text-xs sm:text-xs lg:text-2xl text-gray-100 default-text  font-bold py-2 px-4 rounded disabled:cursor-not-allowed disabled:opacity-50 hover:shadow-md outline-none ease-linear transition-all duration-150;
+  }
+  .default-button-grey {
+    @apply bg-gray-500 hover:bg-gray-700 focus:outline-none text-xs sm:text-xs lg:text-2xl text-gray-100 default-text  font-bold py-2 px-4 rounded disabled:cursor-not-allowed disabled:opacity-50 hover:shadow-md outline-none ease-linear transition-all duration-150;
   }
 
 }

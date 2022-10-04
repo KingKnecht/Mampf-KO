@@ -17,14 +17,17 @@ module.exports = {
   },
   variants: {
     extend: {
-      // opacity:['disabled'],
-      // backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
-      // cursor: ['disabled']
+      opacity: ({ after }) => after(['disabled']),
+      //opacity:['disabled'],
+      backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
+      cursor: ['disabled']
     },
   
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('tw-elements/dist/plugin')
+    require('tw-elements/dist/plugin'),
+ 
   ],
 }
+  

@@ -1,63 +1,69 @@
 <div>
-    <div class="default-text my-4">Select dish:</div>
-    <div class="flex justify-center">
-        <div class="flex input">
-            <!-- <select class="select default-text w-48 sm:w-auto"
-                data-bind="foreach: vm.availableDishes,value: vm.selectedDish, optionsText: 'name', optionsCaption: 'Select a dish...'">
-                <option class="default-text" data-bind="text: name"></option>
-            </select> -->
-            <select class="select default-text w-48 sm:w-auto"
-                data-bind="options: vm.availableDishes,value: vm.selectedDish, optionsText: 'name', optionsCaption: 'Select a dish...'">
-                
-            </select>
+    <div data-bind="hidden: vm.isDayInPast">
+        <div class="default-text my-4">Select dish:</div>
+        <div class="flex justify-center">
+            <div class="flex input">
+                <select class="select default-text w-48 sm:w-auto"
+                    data-bind="options: vm.availableDishes,value: vm.selectedDish, optionsText: 'name', optionsCaption: 'Select a dish...'">
+                </select>
+            </div>
         </div>
-    </div>
-    <div data-bind="hidden: vm.selectedDish() === undefined" class="border-b-2 border-gray-400">
         <div class="default-text my-4">Disable enlisting at:</div>
         <div class="flex justify-center">
-            <div class="p-2 input">
-                <div class="flex">
-                    <select name="hours" class="select default-text" data-bind="value: vm.selectedHour">
-                        <option class="default-text" value="9">9</option>
-                        <option class="default-text" value="10">10</option>
-                        <option class="default-text" value="11">10</option>
-                        <option class="default-text" value="12">12</option>
-                        <option class="default-text" value="13">13</option>
-                        <option class="default-text" value="14">14</option>
-                        <option class="default-text" value="15">15</option>
-                        <option class="default-text" value="16">16</option>
-                        <option class="default-text" value="17">17</option>
-                        <option class="default-text" value="18">18</option>
+            <div class="flex items-center justify-center">
+                    
+            </div>
 
+            <div class="flex flex-col space-y-2">
+                <div class="p-2 input">
+                    <div class="flex">
+                        <select name="hours" class="select default-text" data-bind="value: vm.selectedHour">
+                            <option class="default-text" value="9">9</option>
+                            <option class="default-text" value="10">10</option>
+                            <option class="default-text" value="11">10</option>
+                            <option class="default-text" value="12">12</option>
+                            <option class="default-text" value="13">13</option>
+                            <option class="default-text" value="14">14</option>
+                            <option class="default-text" value="15">15</option>
+                            <option class="default-text" value="16">16</option>
+                            <option class="default-text" value="17">17</option>
+                            <option class="default-text" value="18">18</option>
+                        </select>
+                        <span class="text-xl ml-1 mr-1 mt-2">:</span>
+                        <select name="minutes" class="default-text select mr-2" data-bind="value: vm.selectedMinute">
+                            <option class="default-text" value="0">00</option>
+                            <option class="default-text" value="30">30</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="p-2 input">
+                    <select name="month" class="select default-text" data-bind="options: vm.availableMonths, value: vm.selectedMonth, optionsValue: $data,  optionsText: 'name'">
                     </select>
-                    <span class="text-xl ml-1 mr-1 mt-2">:</span>
-                    <select name="minutes" class="default-text select mr-2" data-bind="value: vm.selectedMinute">
-                        <option class="default-text" value="0">00</option>
-                        <option class="default-text" value="30">30</option>
+                    <select name="day" class="select default-text" data-bind="options: vm.availableDaysOfMonth, value: vm.selectedDay">
                     </select>
                 </div>
             </div>
         </div>
-
         <div class="flex justify-center">
-            <a href="#" data-bind="click: vm.addPlannedDish"
-                class="my-4 bg-green-500 hover:bg-green-700 text-gray-200 text-2xl py-2 px-4 font-medium rounded inline-flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="white" viewBox="0 0 5 5" \
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.1"
-                        d="M2 1 h1 v1 h1 v1 h-1 v1 h-1 v-1 h-1 v-1 h1 z" />
-                </svg>
-                Add Dish
-            </a>
+            <button class="default-button-green default-text w-1/4 mt-4 py-2 rounded" type="button"
+                data-bind="click: vm.addPlannedDish, disable: vm.selectedDish() === undefined">Add Dish
+            </button>
         </div>
-
     </div>
-    <!-- <div class="text-white" data-bind="text: innerWidth"></div>
-    <div class="text-white" data-bind="text: outerWidth"></div> -->
+
+
     <div class="default-text-header my-4">Planned dishes:</div>
     <div data-bind="foreach: vm.plannedDishes">
-        <div class="flex">
+        <div class="flex flex-row items-baseline justify-between">
+
             <div class="default-text-header" data-bind="text: name"></div>
+            <div class="default-text"
+                data-bind="text: '(List closing: ' + $parent.vm.getFormattedDate($data.closing) + ')'"></div>
+            <button
+                class="h-8 my-2 ml-4 inline-flex items-center bg-red-500 text-white active:bg-red-700 font-bold uppercase text-xs px-4 rounded hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150"
+                data-bind="click: $parent.vm.deletePlannedDish" type="button">
+                <img class="h-6 w-6" src="./images/delete.svg" />
+            </button>
         </div>
     </div>
 </div>
