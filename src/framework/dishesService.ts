@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { addDays, format, startOfWeek, getWeek, addHours, addMinutes, setDay, setMonth, setHours, setMinutes } from 'date-fns'
+import { addDays, format, startOfWeek, getWeek, addHours, addMinutes, setDay, setMonth, setHours, setMinutes, endOfDay } from 'date-fns'
 
 export class DishesService {
 
@@ -206,20 +206,21 @@ export class DishesService {
     return Promise.resolve(dishesOfWeek)
 
   }
-  addPlannedDish = async (dish: IDish, day: IDay, closingHour: number, closingMinute: number, closingMonth: number, closingDay: number): Promise<IPlannedDish[]> => {
+
+  addPlannedDish = async (dish: IDish, day: IDay, closingHour: number, closingMinute: number,closingYear : number, closingMonth: number, closingDay: number): Promise<IPlannedDish[]> => {
 
     let foundDay = this.days.find(d => d.date.toISOString() === day.date.toISOString());
     if (foundDay !== undefined) {
 
       //Todo: do something clever with the year
-      let closingDate = setMonth(day.date, closingMonth);
-      closingDate = setDay(closingDate, closingDay, {weekStartsOn: 1});
+      let closingDate = new Date(closingYear, closingMonth, closingDay)
       closingDate = setHours(closingDate, closingHour);
       closingDate = setMinutes(closingDate, closingMinute);
 
-      if(closingDate < new Date()) throw "closing date must not be less than current date";
-      if(closingDate > day.date) throw "closing date must not be greater than date of planning day";
-      
+      if (closingDate < new Date()) throw new Error("Closing date must not be less than current date");
+      let x = new Date(endOfDay(day.date))
+      if (closingDate > new Date(endOfDay(day.date))) throw new Error("Closing date must not be greater than date of planning day");
+
       foundDay.dishes.push({
         ...dish,
         planningId: uuidv4(),

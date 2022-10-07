@@ -3,7 +3,7 @@ import { MainViewModel, registerControl as mainRegisterControl } from './viewmod
 import { NavigationViewModel, registerControl as navigationRegisterControl } from './viewmodels/navigationViewModel';
 import { AdminLoginViewModel, registerControl as adminLoginRegisterControl } from './viewmodels/adminLoginViewModel';
 import { OverviewViewModel, registerControl as overviewRegisterControl } from './viewmodels/overviewViewModel';
-import { init as kov_init, validateObservable } from 'knockout.validation';
+import { init as kov_init } from 'knockout.validation';
 import { applyBindings, observable } from 'knockout';
 import { AppState } from "src/framework/appState";
 import { AdminDishesViewModel, registerControl as adminDishesRegisterVControl } from './viewmodels/adminDishesViewModel';

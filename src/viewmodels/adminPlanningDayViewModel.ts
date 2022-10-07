@@ -1,5 +1,7 @@
-import { addHours, getDaysInMonth, getMonth, format, setMonth, getDay, getDayOfYear, setHours, setMinutes, subSeconds, addDays } from "date-fns";
-import { bindingHandlers, components, computed, Computed, observable, Observable, observableArray, ObservableArray, pureComputed, PureComputed, utils } from "knockout";
+import { addHours, getDaysInMonth, getMonth, format, setMonth, getDay, getDayOfYear, setHours, setMinutes, subSeconds, addDays, endOfDay } from "date-fns";
+import { ko } from "date-fns/locale";
+import { bindingHandlers, components, computed, Computed, observable, Observable, observableArray, ObservableArray, ObservableExtenderOptions} from "knockout";
+import {validateObservable, insertValidationMessage, rules } from "knockout.validation";
 import { DishesService } from "src/framework/DishesService";
 // import flatpickr from "flatpickr";
 // import $ from "jquery";
@@ -19,10 +21,14 @@ export class AdminPlanningDayViewModel {
     selectedMinute: Observable<string> = observable('');
     availableDaysOfMonth: ObservableArray<number> = observableArray()
     selectedDay: Observable<number> = observable(0);
+    selectedYear: Observable<number> = observable(new Date().getFullYear());
     selectedMonth: Observable<IMonth | undefined> = observable();
     availableMonths: ObservableArray<IMonth> = observableArray()
-    
-    isDayInPast : Observable<boolean> = observable(false);;
+
+    isDayInPast: Observable<boolean> = observable(false);;
+
+    isFormValid: Computed;
+    addPlannedDishError: Observable<string> = observable('');
 
     private readonly dishesService: DishesService;
     private readonly day: IDay;
@@ -35,6 +41,7 @@ export class AdminPlanningDayViewModel {
         this.dayAndMonth(day.dayAndMonth);
 
         setInterval(() => this.isDayInPastFn(), 1000 * 60);
+        this.isDayInPastFn();
 
         var months = [...Array(12).keys()].map(m => ({
             value: m,
@@ -59,6 +66,27 @@ export class AdminPlanningDayViewModel {
         dishesService.getPlannedDishesOfDay(day).then(d => {
             this.plannedDishes.push(...d);
         })
+
+        this.isFormValid = computed(() => {
+            this.addPlannedDishError('');
+            if(this.selectedDish() === undefined){
+                return false;
+            }
+            
+            let month = this.selectedMonth();
+            if (month !== undefined) {
+                let selectedDate = new Date(this.selectedYear(), month.value, this.selectedDay(), +this.selectedHour(), +this.selectedMinute());
+                if (selectedDate > endOfDay(this.day.date)) {
+                    this.addPlannedDishError('The date you have entered is in the future of the selected day.');
+                    return false;
+                }
+                if (selectedDate < new Date()) {
+                    this.addPlannedDishError('The date you entered is already in the past.');
+                    return false;
+                }
+            }
+            return false;
+        });
 
         // bindingHandlers.datetimepicker = {
         //     init: function (element: HTMLElement, valueAccessor, allBindingsAccessor) {
@@ -95,6 +123,8 @@ export class AdminPlanningDayViewModel {
         // };
     }
 
+
+
     addPlannedDish = () => {
         let month = this.selectedMonth()?.value;
         if (this.selectedDish() !== undefined && month !== undefined) {
@@ -103,12 +133,18 @@ export class AdminPlanningDayViewModel {
                 this.day,
                 +this.selectedHour(),
                 +this.selectedMinute(),
+                this.day.date.getFullYear(),
                 +month,
                 +this.selectedDay())
+
                 .then(plannedDishes => {
                     this.plannedDishes.removeAll();
                     this.plannedDishes.push(...plannedDishes)
+                })
+                .catch(e => {
+                    this.addPlannedDishError(e);
                 });
+
         }
     }
 
@@ -125,10 +161,10 @@ export class AdminPlanningDayViewModel {
     }
 
     private isDayInPastFn = () => {
-        this.isDayInPast(subSeconds(addDays(this.day.date,1), 1) < new Date());
+        this.isDayInPast(subSeconds(addDays(this.day.date, 1), 1) < new Date());
     };
 
-   
+
 }
 
 export function registerControl() {

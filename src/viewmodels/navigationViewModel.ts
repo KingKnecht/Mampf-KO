@@ -30,14 +30,17 @@ export class NavigationViewModel extends BaseViewModel{
 
   requestAdminPlanningPage = () => {
     this.requestPage("ADMIN_PLANNING")
+    this.toggleMenu();
   }
 
   requestOverviewPage = () => {
     this.requestPage("OVERVIEW")
+    this.toggleMenu();
   }
 
   requestAdminDishesPage = () => {
     this.requestPage("ADMIN_DISHES")
+    this.toggleMenu();
   }
   requestAdminLogout = () => {
     let state = this.appState();
@@ -46,6 +49,7 @@ export class NavigationViewModel extends BaseViewModel{
       action: {kind: 'LogoutAdminType'} as LogoutAdminType
     }
     this.appState(state);
+    this.toggleMenu();
   }
 
   onPageEnter = () => {

@@ -1,4 +1,4 @@
-import { bindingHandlers, components, computed, Computed, extenders, observable, Observable, observableArray, ObservableArray, pureComputed } from "knockout";
+import { components, computed, Computed, extenders, observable, Observable, observableArray, ObservableArray, pureComputed } from "knockout";
 import { validateObservable, } from "knockout.validation";
 
 import { AppState } from "src/framework/appState";

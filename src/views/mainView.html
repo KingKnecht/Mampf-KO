@@ -1,17 +1,26 @@
-
 <div class="flex flex-col items-stretch bg-gray-900">
-  <navigationview  class="flex-grow-0" params="vm: vm.navigationViewModel"></navigationview>
-  <adminloginview params="vm: vm.adminLoginViewModel" data-bind="css: {hidden: !vm.isAdminLoginActive()}"></adminloginview>
-    
-  <div class="flex-grow">
+  <navigationview class="flex-grow-0 fixed-top" params="vm: vm.navigationViewModel"></navigationview>
+  <adminloginview params="vm: vm.adminLoginViewModel" data-bind="css: {hidden: !vm.isAdminLoginActive()}">
+  </adminloginview>
+
+  <div class="flex-grow mt-16">
     <overviewview params="vm: vm.overviewViewModel" data-bind="css: {hidden: !vm.isOverviewActive()}"></overviewview>
-    <adminplanning params="vm: vm.adminPlanningViewModel" data-bind="css: {hidden: !vm.isAdminPlanningActive()}"></adminplanning>
-    <admindishesview params="vm: vm.adminDishesViewModel" data-bind="css: {hidden: !vm.isAdminDishesActive()}"></admindishesview>
-    <adminadddishview params="vm: vm.adminAddDishViewModel" data-bind="css: {hidden: !vm.isAdminAddDishActive()}"></adminadddishview>
-    <admineditdishview params="vm: vm.adminEditDishViewModel" data-bind="css: {hidden: !vm.isAdminEditDishActive()}"></admineditdishview>
+    <adminplanning params="vm: vm.adminPlanningViewModel" data-bind="css: {hidden: !vm.isAdminPlanningActive()}">
+    </adminplanning>
+    <admindishesview params="vm: vm.adminDishesViewModel" data-bind="css: {hidden: !vm.isAdminDishesActive()}">
+    </admindishesview>
+    <adminadddishview params="vm: vm.adminAddDishViewModel" data-bind="css: {hidden: !vm.isAdminAddDishActive()}">
+    </adminadddishview>
+    <admineditdishview params="vm: vm.adminEditDishViewModel" data-bind="css: {hidden: !vm.isAdminEditDishActive()}">
+    </admineditdishview>
   </div>
-  
-  <footer class="flex-grow-0">
-    Footer
-  </footer>
+
+  <div class="bg-gray-800 fixed-bottom flex-grow-0">
+    <a href="https://github.com/KingKnecht/Mampf-KO" target="_blank" rel="noopener noreferrer">   
+      <div class="flex flex-row items-center">
+        <img class="m-2 sm:block h-6 w-auto" src="./images/github.svg" alt="Mampf-KO">
+        <p class="default-text text-xs">Mampf-KO</p>
+      </div>
+    </a>
+  </div>
 </div>
