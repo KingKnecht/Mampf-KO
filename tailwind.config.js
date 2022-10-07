@@ -13,7 +13,7 @@ module.exports = {
       screens : {
         'ssm' : '360px',
       },
-    },
+    }, 
   },
   variants: {
     extend: {
