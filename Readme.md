@@ -2,6 +2,7 @@
 
 Trying to setup some stuff I like to re-use.
 
+`cd frontend`
 `yarn install`
 
 `yarn run serve`
