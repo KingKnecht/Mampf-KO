@@ -9,4 +9,4 @@ Trying to setup some stuff I like to re-use.
 
 Reminder for me for debugging:
 
-<div data-bind="text: console.log($component)"></div>
+`<div data-bind="text: console.log($component)"></div>`
