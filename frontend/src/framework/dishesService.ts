@@ -27,13 +27,11 @@ export class DishesService {
       description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua',
       persons: 1,
       ingredients: [{
-        id: uuidv4(),
         name: "Spätzle",
         amount: 250,
         unit: 'gr'
       },
       {
-        id: uuidv4(),
         name: "Bratensoße",
         amount: 100,
         unit: 'ml'
@@ -192,31 +190,14 @@ export class DishesService {
   }
 
   update = async (dish: IDish): Promise<void> => {
-
-    //give Id to all ingredients
-    dish.ingredients = dish.ingredients.map(i => {
-      if (i.id === undefined)
-        return {
-          ...i,
-          id: uuidv4()
-        };
-      else
-        return i;
-    });
-
     this.dishes = this.dishes.map(d => d.id == dish.id ? dish : d);
     return Promise.resolve();
   }
 
-  // delete = async (dish: IDish): Promise<void> => {
-  //   this.dishes = this.dishes.filter(d => d.id !== dish.id)
-  //   return Promise.resolve();
-  // }
-
   delete = async (dish: IDish): Promise<void> => {
     // 👇️ const data: AddDishesResponse
     return axios.delete<DeleteDishResponse>(
-      '/dishes?id=' + dish.id
+      '/dishes/' + dish.id
     ).then(resp => {
       console.log(JSON.stringify(resp, null, 4));
       // 👇️ "response status is: 200"

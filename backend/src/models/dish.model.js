@@ -3,24 +3,24 @@ const validator = require('validator');
 const { toJSON, paginate } = require('./plugins');
 const { roles } = require('../config/roles');
 
-
-
 const ingredientsSchema = mongoose.Schema(
     {
         name: {
             type: String,
             required: true,
-            trim: true,
+            trim: true
         },
         amount: {
             type: Number,
+            required: false
         },
         unit: {
             type: String,
+            trim: true,
+            required: false
         },
     }
 )
-
 
 const dishSchema = mongoose.Schema(
     {
@@ -42,7 +42,7 @@ const dishSchema = mongoose.Schema(
             type: Number,
             default: 1
         },
-        incredients: {
+        ingredients: {
             type: [ingredientsSchema]
         }
     },
@@ -54,8 +54,6 @@ const dishSchema = mongoose.Schema(
 // add plugin that converts mongoose to json
 dishSchema.plugin(toJSON);
 dishSchema.plugin(paginate);
-
-
 
 /**
  * @typedef Dish
