@@ -1,8 +1,20 @@
 import { v4 as uuidv4 } from "uuid";
 import { addDays, format, startOfWeek, getWeek, addHours, addMinutes, setDay, setMonth, setHours, setMinutes, endOfDay } from 'date-fns'
+import axios, { AxiosError } from 'axios'
+
+type AddDishResponse = {
+  data: IDish
+}
+
+type GetDishesResponse = {
+  results: IDish[],
+  page: number,
+  limit: number,
+  totalPages: number,
+  totalResults: number
+};
 
 export class DishesService {
-
 
   private dishes: IDish[] = [
     {
@@ -149,24 +161,30 @@ export class DishesService {
     return this.days;
   }
 
-
-
-  add = async (dish: IDish): Promise<void> => {
-    dish.id = uuidv4();
-
-    //give Id to all ingredients
-    dish.ingredients = dish.ingredients.map(i => {
-      if (i.id === undefined)
-        return {
-          ...i,
-          id: uuidv4()
-        };
-      else
-        return i;
+  add = async (dish: IDish): Promise<IDish> => {
+    // 👇️ const data: AddDishesResponse
+    return axios.post<AddDishResponse>(
+      '/dishes',
+      dish,
+      {
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+    ).then(resp => {
+      console.log(JSON.stringify(resp, null, 4));
+      // 👇️ "response status is: 200"
+      console.log('response status is: ', resp.status);
+      return resp.data.data;
+    }).catch((err: Error | AxiosError) => {
+      if (axios.isAxiosError(err)) {
+        console.log('error message: ', err.message);
+        throw err.message;
+      } else {
+        console.log('unexpected error: ', err);
+        throw err;
+      }
     });
-
-    this.dishes.push(dish);
-    return Promise.resolve();
   }
 
   update = async (dish: IDish): Promise<void> => {
@@ -192,8 +210,40 @@ export class DishesService {
   }
 
   getDishes = async (): Promise<IDish[]> => {
-    return Promise.resolve(this.dishes);
+    // 👇️ const data: GetUsersResponse
+    return await axios.get<GetDishesResponse>(
+      '/dishes',
+      {
+        headers: {
+          Accept: 'application/json',
+        },
+        params: {
+          sortBy: 'name:asc',
+          limit: 200,
+          page: 1
+        }
+        ,
+      },
+    ).then(resp => {
+
+      console.log(JSON.stringify(resp.data, null, 4));
+      // 👇️ "response status is: 200"
+      console.log('response status is: ', resp.status);
+
+      return resp.data.results;
+    }).catch((err: Error | AxiosError) => {
+      if (axios.isAxiosError(err)) {
+        console.log('error message: ', err.message);
+        throw err.message;
+      } else {
+        // Just a stock error
+        console.log('unexpected error: ', err);
+        throw err;
+      }
+    });
+
   }
+
 
   getPlannedDishesOfDay = async (day: IDay): Promise<IPlannedDish[]> => {
     let workingDaysOfWeek = this.createWorkingDaysOfWeek(new Date());
@@ -207,7 +257,7 @@ export class DishesService {
 
   }
 
-  addPlannedDish = async (dish: IDish, day: IDay, closingHour: number, closingMinute: number,closingYear : number, closingMonth: number, closingDay: number): Promise<IPlannedDish[]> => {
+  addPlannedDish = async (dish: IDish, day: IDay, closingHour: number, closingMinute: number, closingYear: number, closingMonth: number, closingDay: number): Promise<IPlannedDish[]> => {
 
     let foundDay = this.days.find(d => d.date.toISOString() === day.date.toISOString());
     if (foundDay !== undefined) {
