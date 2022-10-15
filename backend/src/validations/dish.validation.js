@@ -5,13 +5,13 @@ const createDish = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     description: Joi.string().allow(''),
-    persons : Joi.number().min(1),   
-    ingredients : Joi.array().items(
-       Joi.object({
-        name : Joi.string().required(),
-        amount : Joi.number().allow(''),
-        unit : Joi.string().allow(''),
-       })
+    persons: Joi.number().min(1),
+    ingredients: Joi.array().items(
+      Joi.object({
+        name: Joi.string().required(),
+        amount: Joi.number().allow(''),
+        unit: Joi.string().allow(''),
+      })
     )
   }),
 };
@@ -32,16 +32,22 @@ const getDish = {
   }),
 };
 
-const updateUser = {
+const updateDish = {
   params: Joi.object().keys({
-    userId: Joi.required().custom(objectId),
+    dishId: Joi.required().custom(objectId),
   }),
-  body: Joi.object()
-    .keys({
-      email: Joi.string().email(),
-      name: Joi.string(),
-    })
-    .min(1),
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    description: Joi.string().allow(''),
+    persons: Joi.number().min(1),
+    ingredients: Joi.array().items(
+      Joi.object({
+        name: Joi.string().required(),
+        amount: Joi.number().allow(''),
+        unit: Joi.string().allow(''),
+      })
+    )
+  }),
 };
 
 const deleteDish = {
@@ -53,7 +59,7 @@ const deleteDish = {
 module.exports = {
   createDish,
   getDishes,
-//   getUser,
-//   updateUser,
+  //   getUser,
+  updateDish,
   deleteDish,
 };

@@ -24,10 +24,10 @@ const getDishes = catchAsync(async (req, res) => {
 //   res.send(user);
 // });
 
-// const updateUser = catchAsync(async (req, res) => {
-//   const user = await userService.updateUserById(req.params.userId, req.body);
-//   res.send(user);
-// });
+const updateDish = catchAsync(async (req, res) => {
+  const dish = await dishService.updateDishById(req.params.dishId, req.body);
+  res.send(dish);
+});
 
 const deleteDish = catchAsync(async (req, res) => {
   await dishService.deleteDishById(req.params.dishId);
@@ -38,6 +38,6 @@ module.exports = {
   createDish,
   getDishes,
   // getUser,
-  // updateUser,
+  updateDish,
   deleteDish,
 };

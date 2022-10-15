@@ -14,7 +14,7 @@ router
 router
   .route('/:dishId')
 //   .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
-//   .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
+   .patch(auth('manageDishes'), validate(dishValidation.updateDish), dishController.updateDish)
    .delete(auth('manageDishes'), validate(dishValidation.deleteDish), dishController.deleteDish);
 
 module.exports = router;
@@ -227,7 +227,7 @@ module.exports = router;
  *
  *   delete:
  *     summary: Delete a dish
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
+ *     description: Dish can only be deleted by admins or chefs.
  *     tags: [Dishes]
  *     security:
  *       - bearerAuth: []

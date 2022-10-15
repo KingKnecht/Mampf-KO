@@ -190,8 +190,30 @@ export class DishesService {
   }
 
   update = async (dish: IDish): Promise<void> => {
-    this.dishes = this.dishes.map(d => d.id == dish.id ? dish : d);
-    return Promise.resolve();
+    // 👇️ const data: PatchDishResponse
+    const dishId = dish.id;
+    delete dish.id;
+    return axios.patch(
+      '/dishes/' + dishId,
+      dish,
+      {
+        headers: {
+          Accept: 'application/json',
+        },
+      },
+    ).then(resp => {
+      console.log(JSON.stringify(resp, null, 4));
+      // 👇️ "response status is: 200"
+      console.log('response status is: ', resp.status);
+    }).catch((err: Error | AxiosError) => {
+      if (axios.isAxiosError(err)) {
+        console.log('error message: ', err.message);
+        throw err.message;
+      } else {
+        console.log('unexpected error: ', err);
+        throw err;
+      }
+    });
   }
 
   delete = async (dish: IDish): Promise<void> => {

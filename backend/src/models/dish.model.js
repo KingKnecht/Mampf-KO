@@ -56,6 +56,19 @@ dishSchema.plugin(toJSON);
 dishSchema.plugin(paginate);
 
 /**
+ * Check if dish name is taken
+ * @param {string} name - The dish's name
+ * @param {ObjectId} [excludeDishId] - The id of the dish to be excluded
+ * @returns {Promise<boolean>}
+ */
+ dishSchema.statics.isDishNameTaken = async function (name, excludeDishId) {
+    const dish = await this.findOne({ name, _id: { $ne: excludeDishId } });
+    return !!dish;
+  };
+  
+
+
+/**
  * @typedef Dish
  */
 const Dish = mongoose.model('Dish', dishSchema);

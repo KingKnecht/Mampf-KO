@@ -136,9 +136,9 @@ class EditDishFormViewModel extends BaseViewModel {
                     amount: i.amount(),
                     unit: i.unit()
                 }) as IIngredient)
+        }).then(res => {
+            this.requestPreviousPage();
         });
-
-        this.requestPreviousPage();
     }
 
     addIngredient = () => {
