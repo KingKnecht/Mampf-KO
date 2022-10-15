@@ -129,9 +129,10 @@ class AddDishFormViewModel extends BaseViewModel {
         }) as IIngredient))
     }
 
-    this.dishesService.add(dish);
-
-    this.requestPreviousPage();
+    this.dishesService.add(dish).then(() => {
+      this.requestPreviousPage();
+    });
+    
   }
 
   addIngredient = () => {

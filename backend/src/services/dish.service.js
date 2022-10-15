@@ -8,7 +8,7 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Dish>}
  */
 const createDish = async (dishBody) => {
-    if (await Dish.isDishNameTaken(userBody.name)) {
+    if (await Dish.isDishNameTaken(dishBody.name)) {
       throw new ApiError(httpStatus.BAD_REQUEST, 'Dish name already taken');
     }
   return Dish.create(dishBody);
