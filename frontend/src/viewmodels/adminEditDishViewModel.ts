@@ -29,7 +29,6 @@ export class AdminEditDishViewModel extends BaseViewModel {
 class IngredientVm {
 
     constructor(ingredient: IIngredient) {
-        this.id = ingredient.id;
         this.name = observable(ingredient.name);
         this.amount = observable(ingredient.amount);
         this.unit = observable(ingredient.unit);
@@ -59,7 +58,7 @@ class EditDishFormViewModel extends BaseViewModel {
     isFormValid: Computed;
     dishesService: DishesService;
 
-    currentIncredients: ObservableArray<IngredientVm> = observableArray();
+    currentIngredients: ObservableArray<IngredientVm> = observableArray();
 
     constructor(dishesService: DishesService, appState: Observable<AppState>) {
         super(appState);
@@ -76,9 +75,8 @@ class EditDishFormViewModel extends BaseViewModel {
                 this.description(dish.description);
                 this.id = dish.id;
                 //Todo: Ingredient VMs
-                this.currentIncredients(dish.ingredients.map(i =>
+                this.currentIngredients(dish.ingredients.map(i =>
                     new IngredientVm({
-                        id: i.id,
                         name: i.name,
                         amount: i.amount,
                         unit: i.unit,
@@ -131,7 +129,7 @@ class EditDishFormViewModel extends BaseViewModel {
             name: this.dishName(),
             description: this.description(),
             persons: 1,
-            ingredients: this.currentIncredients().map(i => (
+            ingredients: this.currentIngredients().map(i => (
                 {
                     id: i.id,
                     name: i.name(),
@@ -146,9 +144,8 @@ class EditDishFormViewModel extends BaseViewModel {
     addIngredient = () => {
         const ingredientName = this.ingredientName();
         if (ingredientName != undefined) {
-            this.currentIncredients.push(
+            this.currentIngredients.push(
                 new IngredientVm({
-                    id: undefined,
                     name: ingredientName,
                     amount: this.amount(),
                     unit: this.unit(),
@@ -161,7 +158,7 @@ class EditDishFormViewModel extends BaseViewModel {
     }
 
     deleteIngredient = (elem: IngredientVm) => {
-        this.currentIncredients.remove(elem);
+        this.currentIngredients.remove(elem);
     }
 
     editIngredient = (elem: IngredientVm) => {

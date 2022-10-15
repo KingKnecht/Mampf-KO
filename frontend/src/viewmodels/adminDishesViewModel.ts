@@ -38,12 +38,14 @@ export class AdminDishesViewModel extends BaseViewModel {
     this.isAskingForDeletion(true);
   }
 
-  acknowlageDeleteDish = () => {
+  acknowlageDeleteDish = async () => {
     if (this.toBeDeletedDish() !== undefined) {
-      this.dishesService.delete(this.toBeDeletedDish() as IDish)
-      this.toBeDeletedDish(undefined);
-      this.isAskingForDeletion(false);
-      this.onPageEnter();
+      this.dishesService.delete(this.toBeDeletedDish() as IDish).then((_) => {
+        this.toBeDeletedDish(undefined);
+        this.isAskingForDeletion(false);
+        this.onPageEnter();
+      });
+
     }
   }
 

@@ -11,11 +11,11 @@ router
   .post(auth('manageDishes'), validate(dishValidation.createDish), dishController.createDish)
   .get(auth('manageDishes'), validate(dishValidation.getDishes), dishController.getDishes);
 
-// router
-//   .route('/:userId')
+router
+  .route('/:dishId')
 //   .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
 //   .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
-//   .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
+   .delete(auth('manageDishes'), validate(dishValidation.deleteDish), dishController.deleteDish);
 
 module.exports = router;
 
@@ -48,22 +48,30 @@ module.exports = router;
  *                 type: string
  *               description:
  *                 type: string
- *               persons: number
+ *               persons: 
+ *                  type: number
  *               ingredients: 
  *                 type: array
  *                 items:
- *                    name: string
- *                    amount: number
- *                    unit: string
+ *                    type: object
+ *                    properties:
+ *                      name: 
+ *                        type: string
+ *                      amount: 
+ *                        type: number
+ *                      unit: 
+ *                        type: string
  *             example:
  *               name: dish name
  *               description: some text
  *               persons: 1
- *               ingredients: [
- *                              name: ingredient name
- *                              amount: number
- *                              unit: string
- *                            ]
+ *               ingredients:
+ *                  - name: salt
+ *                    amount: 1
+ *                    unit: teaspoon
+ *                  - name: flour
+ *                    amount: 100
+ *                    unit: gr
  *                  
  *     responses:
  *       "201":
@@ -71,18 +79,16 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
- *       "400":
- *         $ref: '#/components/responses/DuplicateEmail'
+ *                $ref: '#/components/schemas/Dish'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
+ *     summary: Get all dishes
+ *     description: Only admins and chefs can retrieve all dishes.
+ *     tags: [Dishes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -90,12 +96,7 @@ module.exports = router;
  *         name: name
  *         schema:
  *           type: string
- *         description: User name
- *       - in: query
- *         name: role
- *         schema:
- *           type: string
- *         description: User role
+ *         description: Dish name
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -107,7 +108,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of dishes
  *       - in: query
  *         name: page
  *         schema:
@@ -126,7 +127,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/User'
+ *                     $ref: '#/components/schemas/Dish'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -150,8 +151,8 @@ module.exports = router;
  * /users/{id}:
  *   get:
  *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
+ *     description: Only admins and chefs can get a dish by id.
+ *     tags: [Dishes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -160,14 +161,14 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Dish id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
+ *                $ref: '#/components/schemas/Dish'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -176,9 +177,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a user
- *     description: Logged in users can only update their own information. Only admins can update other users.
- *     tags: [Users]
+ *     summary: Update a dish
+ *     description: Only admins and chefs can update a dish
+ *     tags: [Dishes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -187,7 +188,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Dish id
  *     requestBody:
  *       required: true
  *       content:
@@ -216,9 +217,7 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
- *       "400":
- *         $ref: '#/components/responses/DuplicateEmail'
+ *                $ref: '#/components/schemas/Dish'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -227,9 +226,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a user
+ *     summary: Delete a dish
  *     description: Logged in users can delete only themselves. Only admins can delete other users.
- *     tags: [Users]
+ *     tags: [Dishes]
  *     security:
  *       - bearerAuth: []
  *     parameters:

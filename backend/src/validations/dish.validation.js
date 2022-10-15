@@ -44,9 +44,9 @@ const updateUser = {
     .min(1),
 };
 
-const deleteUser = {
+const deleteDish = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    dishId: Joi.string().custom(objectId),
   }),
 };
 
@@ -55,5 +55,5 @@ module.exports = {
   getDishes,
 //   getUser,
 //   updateUser,
-//   deleteUser,
+  deleteDish,
 };

@@ -29,12 +29,10 @@ export class AdminAddDishViewModel extends BaseViewModel {
 class IngredientVm {
 
   constructor(ingredient: IIngredient) {
-    this.id = ingredient.id;
     this.name = observable(ingredient.name);
     this.amount = observable(ingredient.amount);
     this.unit = observable(ingredient.unit);
   }
-  id: string | undefined;
   name: Observable<string>;
   amount: Observable<number | undefined>;
   unit: Observable<string | undefined>;
@@ -58,7 +56,7 @@ class AddDishFormViewModel extends BaseViewModel {
   isFormValid: Computed;
   dishesService: DishesService;
 
-  currentIncredients: ObservableArray<IngredientVm> = observableArray();
+  currentIngredients: ObservableArray<IngredientVm> = observableArray();
 
   constructor(dishesService: DishesService, appState: Observable<AppState>) {
     super(appState);
@@ -103,19 +101,35 @@ class AddDishFormViewModel extends BaseViewModel {
   }
 
   handleSubmit = () => {
-    this.dishesService.add({
+
+    const ingredient : IIngredient = {
+       name : '',
+       amount : this.amount(),
+       unit : this.unit()
+    }
+    if(this.ingredientName() !== undefined){
+      ingredient.name = this.ingredientName() as string
+    }
+
+    const ingredients : IIngredient[] = []
+    if(ingredient.name !== ""){
+      ingredients.push(ingredient);
+    }
+    
+    const dish = {
       id: undefined,
       name: this.dishName(),
       description: this.description(),
       persons: 1,
-      ingredients: this.currentIncredients().map(i => (
+      ingredients: ingredients.concat(this.currentIngredients().map(i => (
         {
-          id: i.id,
           name: i.name(),
           amount: i.amount(),
           unit: i.unit()
-        }) as IIngredient)
-    });
+        }) as IIngredient))
+    }
+
+    this.dishesService.add(dish);
 
     this.requestPreviousPage();
   }
@@ -123,9 +137,8 @@ class AddDishFormViewModel extends BaseViewModel {
   addIngredient = () => {
     const ingredientName = this.ingredientName();
     if (ingredientName != undefined) {
-      this.currentIncredients.push(
+      this.currentIngredients.push(
         new IngredientVm({
-          id: undefined,
           name: ingredientName,
           amount: this.amount(),
           unit: this.unit(),
@@ -138,7 +151,7 @@ class AddDishFormViewModel extends BaseViewModel {
   }
 
   deleteIngredient = (elem: IngredientVm) => {
-    this.currentIncredients.remove(elem);
+    this.currentIngredients.remove(elem);
   }
 
   editIngredient = (elem: IngredientVm) => {

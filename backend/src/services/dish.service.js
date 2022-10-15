@@ -28,8 +28,33 @@ const queryDishes = async (filter, options) => {
   return dishes;
 };
 
+/**
+ * Get dish by id
+ * @param {ObjectId} id
+ * @returns {Promise<Dish>}
+ */
+ const getDishById = async (id) => {
+  return Dish.findById(id);
+};
+
+/**
+ * Delete dish by id
+ * @param {ObjectId} dishId
+ * @returns {Promise<Dish>}
+ */
+ const deleteDishById = async (dishId) => {
+  const dish = await getDishById(dishId);
+  if (!dish) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Dish not found');
+  }
+  await dish.remove();
+  return dish;
+};
+
 
 module.exports = {
   createDish,
   queryDishes,
+  deleteDishById,
+  getDishById
 };
