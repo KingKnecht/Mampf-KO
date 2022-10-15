@@ -12,11 +12,21 @@ import { registerControl as adminPlanningDayRegisterControl } from './viewmodels
 import { AdminAddDishViewModel, registerControl as adminAddDishRegisterControl } from "./viewmodels/adminAddDishViewModel";
 import { AdminEditDishViewModel, registerControl as adminEditDishRegisterControl } from "./viewmodels/adminEditDishViewModel";
 import { DishesService } from './framework/DishesService';
+import { AuthService } from './framework/authService';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { getToken } from './framework/tokenBearer';
 
 async function init() {
 
-
     console.log('init()');
+
+    axios.defaults.baseURL = 'http://localhost:3000/v1/' ;
+    axios.interceptors.request.use((config : AxiosRequestConfig)=> {
+        if(config.headers != null)
+            config.headers['Authorization'] = `Bearer ${getToken()}`;
+        
+            return config;
+    });
 
     mainRegisterControl();
     navigationRegisterControl();
@@ -27,7 +37,7 @@ async function init() {
     adminPlanningDayRegisterControl();
     adminAddDishRegisterControl();
     adminEditDishRegisterControl();
-    
+
 
     kov_init({ insertMessages: false });
 
@@ -57,7 +67,8 @@ async function init() {
 
     const appStateObservable = observable(initalAppState)
     const dishService = new DishesService();
-    const adminLoginViewModel = new AdminLoginViewModel(appStateObservable);
+    const authService = new AuthService();
+    const adminLoginViewModel = new AdminLoginViewModel(appStateObservable, authService);
     const navigationViewModel = new NavigationViewModel(appStateObservable);
     const overviewViewModel = new OverviewViewModel(appStateObservable);
     const adminAddDishViewModel = new AdminAddDishViewModel(appStateObservable, dishService);

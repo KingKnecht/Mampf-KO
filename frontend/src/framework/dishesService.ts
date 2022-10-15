@@ -6,6 +6,10 @@ type AddDishResponse = {
   data: IDish
 }
 
+type DeleteDishResponse = {
+  
+}
+
 type GetDishesResponse = {
   results: IDish[],
   page: number,
@@ -204,10 +208,30 @@ export class DishesService {
     return Promise.resolve();
   }
 
+  // delete = async (dish: IDish): Promise<void> => {
+  //   this.dishes = this.dishes.filter(d => d.id !== dish.id)
+  //   return Promise.resolve();
+  // }
+
   delete = async (dish: IDish): Promise<void> => {
-    this.dishes = this.dishes.filter(d => d.id !== dish.id)
-    return Promise.resolve();
+    // 👇️ const data: AddDishesResponse
+    return axios.delete<DeleteDishResponse>(
+      '/dishes?id=' + dish.id
+    ).then(resp => {
+      console.log(JSON.stringify(resp, null, 4));
+      // 👇️ "response status is: 200"
+      console.log('response status is: ', resp.status);
+    }).catch((err: Error | AxiosError) => {
+      if (axios.isAxiosError(err)) {
+        console.log('error message: ', err.message);
+        throw err.message;
+      } else {
+        console.log('unexpected error: ', err);
+        throw err;
+      }
+    });
   }
+
 
   getDishes = async (): Promise<IDish[]> => {
     // 👇️ const data: GetUsersResponse
